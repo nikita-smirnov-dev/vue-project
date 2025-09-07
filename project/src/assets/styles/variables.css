@@ -5,6 +5,12 @@
   --color-menu-line: #dc5dfc;
   --color-active-accent: #b4a9ff;
   --color-dark-gray: #393b3c;
+  --color-shaft-button: #333333;
+  --color-cape-cod-button: #393b3c;
+  --color-exellent-rating: #a59400;
+  --color-good-rating: #308e21;
+  --color-average-rating: #777777;
+  --color-poor-rating: #c82020;
   --color-gradient-gray: rgba(255, 255, 255, 0.5);
 
   --font-size-12: 0.75rem;
