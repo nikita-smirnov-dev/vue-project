@@ -1,6 +1,11 @@
 :root {
   --color-black: #000000;
   --color-white: #ffffff;
+  --color-blue-button: #67a5eb;
+  --color-menu-line: #dc5dfc;
+  --color-active-accent: #b4a9ff;
+  --color-dark-gray: #393b3c;
+  --color-gradient-gray: rgba(255, 255, 255, 0.5);
 
   --font-size-12: 0.75rem;
   --font-size-14: 0.875rem;

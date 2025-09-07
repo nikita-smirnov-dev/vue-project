@@ -1,0 +1,19 @@
+<template>
+  <button class="btn-reset base-button"><slot /></button>
+</template>
+
+<script setup lang="ts"></script>
+
+<style scoped>
+.base-button {
+  padding: var(--spacing-16) var(--spacing-48);
+  border-radius: 28px;
+  font-weight: 700;
+  font-size: var(--font-size-18);
+  line-height: 1.3;
+  color: var(--color-white);
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+</style>
