@@ -38,6 +38,11 @@ const props = defineProps({
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 0 80px 0 var(--color-shadow-card);
+  transition: border 0.3s ease-in-out;
+}
+
+.movie-card__wrapper:hover {
+  border: 1px solid var(--color-white);
 }
 
 .movie-card__rating {

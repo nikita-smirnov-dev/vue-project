@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('@/views/HomeView.vue'),
     },
     {
+      name: 'genreSlug',
+      path: '/genres/:genreSlug',
+      component: () => import('@/views/MoviesByGenreView.vue'),
+    },
+    {
       name: 'genres',
       path: '/genres',
       component: () => import('@/views/GenresView.vue'),
