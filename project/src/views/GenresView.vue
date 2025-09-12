@@ -1,14 +1,16 @@
 <template>
-  <section class="genres">
-    <h1 class="genres__title section-title">Жанры фильмов</h1>
-    <ul class="genres__list list-reset">
-      <li v-for="item of genres" :key="item.id">
-        <router-link to="/genres/:genreSlug">
-          <GenreCard :genre="item"
-        /></router-link>
-      </li>
-    </ul>
-  </section>
+  <main>
+    <section class="genres">
+      <h1 class="genres__title section-title">Жанры фильмов</h1>
+      <ul class="genres__list list-reset">
+        <li v-for="item of genres" :key="item.id">
+          <router-link to="/genres/:genreSlug">
+            <GenreCard :genre="item"
+          /></router-link>
+        </li>
+      </ul>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">

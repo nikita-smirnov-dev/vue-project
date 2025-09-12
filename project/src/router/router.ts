@@ -24,6 +24,11 @@ const router = createRouter({
       component: () => import('@/views/GenresView.vue'),
     },
     {
+      name: 'detaials',
+      path: '/about/:id',
+      component: () => import('@/views/MovieDetailsView.vue'),
+    },
+    {
       name: 'not-found',
       path: '/:pathMatch(.*)*',
       component: () => import('@/views/NotFoundView.vue'),

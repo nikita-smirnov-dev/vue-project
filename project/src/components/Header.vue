@@ -1,10 +1,10 @@
 <template>
-  <div class="header">
+  <header class="header">
     <Logo class="header-logo" />
     <Navigation />
     <Search />
     <LoginButton />
-  </div>
+  </header>
 </template>
 
 <script setup lang="ts">

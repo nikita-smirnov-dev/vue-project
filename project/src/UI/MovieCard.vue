@@ -1,6 +1,6 @@
 <template>
   <div class="movie-card">
-    <div class="movie-card__rating">{{ index }}</div>
+    <div v-if="hideRating" class="movie-card__rating">{{ index }}</div>
     <div class="movie-card__wrapper">
       <div class="movie-card__img">
         <img :src="movie.img" alt="img" />
