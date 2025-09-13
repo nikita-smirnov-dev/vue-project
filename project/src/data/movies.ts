@@ -1,5 +1,10 @@
 import imageMovie from '../assets/images/image.jpg';
 
+export interface IMovie {
+  id: number;
+  img: string;
+}
+
 export default [
   {
     id: 1,

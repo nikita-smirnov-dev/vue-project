@@ -10,12 +10,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 
-const props = defineProps({
-  path: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  path: string;
+}>();
 </script>
 
 <style scoped>

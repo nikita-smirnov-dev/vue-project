@@ -19,6 +19,12 @@ import { RouterLink } from 'vue-router';
 import imgGenre from '../assets/images/image.jpg';
 import { ref } from 'vue';
 
+export interface IGenres {
+  id: number;
+  title: string;
+  img: string;
+}
+
 const genres = ref([
   {
     id: 1,

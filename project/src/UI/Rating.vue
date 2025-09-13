@@ -9,16 +9,10 @@
 import { ReStarFill } from '@kalimahapps/vue-icons';
 import { ref } from 'vue';
 
-const props = defineProps({
-  decimals: {
-    type: Number,
-    default: 1,
-  },
-  value: {
-    type: Number,
-    required: true,
-  },
-});
+const props = defineProps<{
+  decimals?: number;
+  value: number;
+}>();
 
 const decimalsRef = ref(props.decimals);
 const valueRef = ref(props.value);

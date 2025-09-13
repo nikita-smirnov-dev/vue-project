@@ -17,10 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import SettingAccount from '@/components/SettingAccount.vue';
-import MenuElement from '@/UI/MenuElement.vue';
 import { ReHeart3Line } from '@kalimahapps/vue-icons';
 import { ReUserLine } from '@kalimahapps/vue-icons';
+
+import SettingAccount from '@/components/SettingAccount.vue';
+import MenuElement from '@/UI/MenuElement.vue';
 </script>
 
 <style scoped>

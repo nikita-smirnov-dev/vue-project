@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  genre: {
-    type: Object,
-    required: true,
-  },
-});
+import type { IMovie } from '@/data/movies';
+import type { IGenres } from '@/views/GenresView.vue';
+
+const props = defineProps<{
+  genre: IGenres;
+}>();
 </script>
 
 <style scoped>

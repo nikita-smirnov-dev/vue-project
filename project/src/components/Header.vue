@@ -1,9 +1,9 @@
 <template>
   <header class="header">
-    <Logo class="header-logo" />
+    <Logo class="header-logo" color="white" />
     <Navigation />
     <Search />
-    <LoginButton />
+    <LoginButton @click="$emit('open-login')" />
   </header>
 </template>
 

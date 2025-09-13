@@ -14,6 +14,8 @@
   --color-genre-card: #616161;
   --color-genre-content: #0a0b0b;
   --color-raiting-top-movie: #6a5dc2;
+  --color-modal: rgba(0, 0, 0, 0.5);
+  --color-modal-form: rgba(0, 0, 0, 0.4);
   --color-gradient-gray: rgba(255, 255, 255, 0.5);
   --color-social-footer: rgba(255, 255, 255, 0.8);
   --color-border-card: rgba(255, 255, 255, 0.25);

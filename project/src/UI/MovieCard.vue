@@ -10,20 +10,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  movie: {
-    type: Object,
-    required: true,
-  },
-  hideRating: {
-    type: Boolean,
-    default: false,
-  },
-  index: {
-    type: Number,
-    default: 1,
-  },
-});
+import type { IMovie } from '@/data/movies';
+
+const props = defineProps<{
+  movie: IMovie;
+  hideRating: boolean;
+  index?: number;
+}>();
 </script>
 
 <style scoped>

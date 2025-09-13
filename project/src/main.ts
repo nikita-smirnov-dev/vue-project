@@ -7,6 +7,7 @@ import router from './router/router';
 import './assets/styles/normalize.css';
 import './assets/styles/variables.css';
 import './assets/styles/fonts.css';
+import './assets/styles/modal.css';
 import './assets/styles/main.css';
 
 const app = createApp(App);

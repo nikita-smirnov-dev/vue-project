@@ -9,16 +9,10 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  description: {
-    type: String,
-    required: true,
-  },
-  value: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  description: string;
+  value: string;
+}>();
 </script>
 
 <style scoped>
