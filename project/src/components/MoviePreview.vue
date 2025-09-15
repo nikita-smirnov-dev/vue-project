@@ -3,27 +3,29 @@
     <div class="movie-preview__left">
       <div class="movie-preview__left-info">
         <div class="movie-preview__left-rating">
-          <Rating :value="7" />
+          <Rating :value="movie.tmdbRating" />
         </div>
-        <span class="movie-preview__left-year"> 1979</span>
-        <span class="movie-preview__left-genre">детектив</span>
-        <span class="movie-preview__left-runtime">1ч 7мин</span>
+        <span class="movie-preview__left-year">{{ movie.releaseYear }}</span>
+        <span class="movie-preview__left-genre">{{ formattedGenres }}</span>
+        <span class="movie-preview__left-runtime">{{ formattedRuntime }}</span>
       </div>
       <h1 class="movie-preview__left-title section-title">
-        Шерлок Холмс и доктор Ватсон: Знакомство
+        {{ movie.title }}
       </h1>
       <p class="movie-preview__left-descr base-text">
-        Увлекательные приключения самого известного сыщика всех времен
+        {{ movie.plot }}
       </p>
       <div class="movie-preview__buttons-container">
         <Button class="movie-preview__trailer">Трейлер</Button>
         <Button class="movie-preview__film">О фильме</Button>
         <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
-        <Button class="movie-preview__update"><ReLoopRightLine /></Button>
+        <Button class="movie-preview__update" @click="onNewRandomMovieClick"
+          ><ReLoopRightLine
+        /></Button>
       </div>
     </div>
     <div class="movie-preview__right">
-      <img :src="image" alt="film" />
+      <img :src="movie.posterUrl" alt="film" />
     </div>
   </div>
 </template>
@@ -32,8 +34,33 @@
 import Button from '@/UI/Button.vue';
 import { ReHeart3Line } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
-import image from '../assets/images/image.jpg';
 import Rating from '@/UI/Rating.vue';
+
+import type { IRandomMovie } from '@/types/movieTypes';
+import { useMovieRandomStore } from '@/stores/movieStore';
+import { computed } from 'vue';
+
+const props = defineProps<{
+  movie: IRandomMovie;
+}>();
+
+const movieStore = useMovieRandomStore();
+
+const onNewRandomMovieClick = () => {
+  movieStore.loadRandomMovie();
+};
+
+const formattedRuntime = computed(() => {
+  const totalTime = props.movie.runtime;
+  const hours = Math.floor(totalTime / 60);
+  const minutes = totalTime % 60;
+
+  return hours > 0 ? `${hours} ч ${minutes} м` : `${minutes} м`;
+});
+
+const formattedGenres = computed(() => {
+  return props.movie.genres.join(',');
+});
 </script>
 
 <style scoped>

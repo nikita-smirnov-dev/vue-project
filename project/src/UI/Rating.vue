@@ -1,5 +1,5 @@
 <template>
-  <div :class="[getRatingColorClass(valueRef), 'rating']">
+  <div :class="[ratingClass, 'rating']">
     <ReStarFill class="rating__icon" />
     {{ displayValue }}
   </div>
@@ -7,26 +7,29 @@
 
 <script setup lang="ts">
 import { ReStarFill } from '@kalimahapps/vue-icons';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
   decimals?: number;
   value: number;
 }>();
 
-const decimalsRef = ref(props.decimals);
-const valueRef = ref(props.value);
+const valueRef = computed(() => props.value);
+const decimalsRef = computed(() => props.decimals ?? 1);
 
-const getRatingColorClass = (rating: number) => {
+const getRatingColorClass = (rating: number): string => {
   if (rating >= 8 && rating <= 10) return 'rating-excellent';
   if (rating >= 6 && rating < 8) return 'rating-good';
   if (rating >= 4 && rating < 6) return 'rating-average';
   if (rating >= 0 && rating < 4) return 'rating-poor';
+  return '';
 };
 
-const displayValue = valueRef.value
-  .toFixed(decimalsRef.value)
-  .replace('.', ',');
+const ratingClass = computed(() => getRatingColorClass(valueRef.value));
+
+const displayValue = computed(() =>
+  valueRef.value.toFixed(decimalsRef.value).replace('.', ',')
+);
 </script>
 
 <style scoped>
