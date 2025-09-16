@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import type { IRandomMovie } from '@/types/movieTypes';
+import type { RandomMovie } from '@/types/movieTypes';
 import { fetchRandomMovie } from '@/api/movieApi';
 
 export const useMovieRandomStore = defineStore('random', () => {
-  const movieRandom = ref<IRandomMovie | null>(null);
+  const movieRandom = ref<RandomMovie | null>(null);
   const loader = ref(false);
   const error = ref<string | null>(null);
 

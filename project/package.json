@@ -17,7 +17,8 @@
     "@kalimahapps/vue-icons": "^1.8.1",
     "pinia": "^3.0.3",
     "vue": "^3.5.18",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.5.1",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.12.0",

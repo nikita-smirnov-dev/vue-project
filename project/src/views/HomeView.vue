@@ -14,17 +14,19 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
 import MoviePreview from '@/components/MoviePreview.vue';
 import MovieTopList from '@/components/MovieTopList.vue';
-import { useMovieRandomStore } from '@/stores/movieStore';
+import { useMovieRandomStore } from '@/stores/movieRandomStore';
 import DataLoader from '@/UI/DataLoader.vue';
-
-import { onMounted } from 'vue';
 
 const randomMovieStore = useMovieRandomStore();
 
 onMounted(() => {
-  randomMovieStore.loadRandomMovie();
+  if (!randomMovieStore.movieRandom) {
+    randomMovieStore.loadRandomMovie();
+  }
 });
 </script>
 

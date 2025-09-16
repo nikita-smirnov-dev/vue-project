@@ -25,23 +25,24 @@
       </div>
     </div>
     <div class="movie-preview__right">
-      <img :src="movie.posterUrl" alt="film" />
+      <img :src="movie.posterUrl || defaultImage" :alt="movie.title" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from '@/UI/Button.vue';
+import { computed } from 'vue';
 import { ReHeart3Line } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
-import Rating from '@/UI/Rating.vue';
 
-import type { IRandomMovie } from '@/types/movieTypes';
-import { useMovieRandomStore } from '@/stores/movieStore';
-import { computed } from 'vue';
+import type { RandomMovie } from '@/types/movieTypes';
+import { useMovieRandomStore } from '@/stores/movieRandomStore';
+import Button from '@/UI/Button.vue';
+import Rating from '@/UI/Rating.vue';
+import defaultImage from '../assets/images/default-img.jpg';
 
 const props = defineProps<{
-  movie: IRandomMovie;
+  movie: RandomMovie;
 }>();
 
 const movieStore = useMovieRandomStore();
@@ -59,7 +60,7 @@ const formattedRuntime = computed(() => {
 });
 
 const formattedGenres = computed(() => {
-  return props.movie.genres.join(',');
+  return props.movie.genres.join(', ');
 });
 </script>
 
