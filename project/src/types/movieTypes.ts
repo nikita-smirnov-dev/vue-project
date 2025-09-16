@@ -35,3 +35,18 @@ export const RandomMovieSchema = BaseMovieSchema.pick({
 });
 
 export type RandomMovie = z.infer<typeof RandomMovieSchema>;
+
+// Top movie schema
+
+export const TopMovieSchema = BaseMovieSchema.pick({
+  id: true,
+  title: true,
+  posterUrl: true,
+  tmdbRating: true,
+}).partial();
+
+export type TopMovie = z.infer<typeof TopMovieSchema>;
+
+export const TopMovieListSchema = z.array(TopMovieSchema);
+
+export type TopMovieList = z.infer<typeof TopMovieListSchema>;

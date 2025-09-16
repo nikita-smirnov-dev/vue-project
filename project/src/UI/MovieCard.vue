@@ -3,7 +3,7 @@
     <div v-if="hideRating" class="movie-card__rating">{{ index }}</div>
     <div class="movie-card__wrapper">
       <div class="movie-card__img">
-        <img :src="movie.img" alt="img" />
+        <img :src="movie.posterUrl || defaultImg" :alt="movie.title" />
       </div>
     </div>
   </div>
@@ -11,9 +11,11 @@
 
 <script setup lang="ts">
 import type { IMovie } from '@/data/movies';
+import type { TopMovie } from '@/types/movieTypes';
+import defaultImg from '../assets/images/default-img.jpg';
 
 const props = defineProps<{
-  movie: IMovie;
+  movie: TopMovie;
   hideRating: boolean;
   index?: number;
 }>();

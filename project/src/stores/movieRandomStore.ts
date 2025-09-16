@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { RandomMovie } from '@/types/movieTypes';
 import { fetchRandomMovie } from '@/api/movieApi';

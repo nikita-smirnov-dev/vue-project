@@ -2,7 +2,7 @@
   <div class="top-movies">
     <h2 class="top-movies__title">Топ 10 фильмов</h2>
     <ul class="top-movies__list list-reset">
-      <li v-for="(item, index) of topMovies" :key="item.id">
+      <li v-for="(item, index) of movie" :key="item.id">
         <router-link :to="`/about/${item.id}`">
           <MovieCard :movie="item" :hide-rating="true" :index="index + 1" />
         </router-link>
@@ -12,13 +12,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import MovieCard from '@/UI/MovieCard.vue';
 import moviesData from '../data/movies';
+import { useMovieTopStore } from '@/stores/movieTopStore';
+import type { TopMovieList } from '@/types/movieTypes';
 
 const topMovies = ref(moviesData);
+
+const props = defineProps<{
+  movie: TopMovieList | null;
+}>();
+
+const movieTopStore = useMovieTopStore();
 </script>
 
 <style scoped>
