@@ -2,35 +2,70 @@
   <main>
     <section class="movies-genres">
       <div class="movies-genres__block">
-        <router-link to="/" class="movies-genres__button">
+        <router-link to="/genres" class="movies-genres__button">
           <MdArrowBackIos class="movies-genres__icon" />
         </router-link>
-        <h1 class="movies-genres__title section-title">Фантастика</h1>
+        <h1 class="movies-genres__title section-title">
+          {{ currentGenre }}
+        </h1>
       </div>
       <ul class="movies-genres__list list-reset">
-        <li v-for="item of genreMovies" :key="item.id">
+        <li v-for="item of genreByMovieStore.genreMovie" :key="item.id">
           <router-link :to="`/about/${item.id}`">
             <MovieCard :movie="item" :hide-rating="false" />
           </router-link>
         </li>
       </ul>
-      <div class="movies-genres__btn-wrapper">
-        <Button class="movies-genres__btn">Показать ещё</Button>
+      <div class="movies-genres__btn-wrapper" v-if="isShowBtnVisible">
+        <Button
+          class="movies-genres__btn"
+          @click="genreByMovieStore.loadMoreMovies()"
+          >Показать ещё</Button
+        >
       </div>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
+import { computed, watch } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 import { MdArrowBackIos } from '@kalimahapps/vue-icons';
 
 import MovieCard from '@/UI/MovieCard.vue';
-import moviesData from '../data/movies';
 import Button from '@/UI/Button.vue';
+import { useMovieByGenreStore } from '@/stores/movieByGenreStore';
+import { genreTranslations } from '@/assets/data/genresTranslateions';
 
-const genreMovies = ref(moviesData);
+const route = useRoute();
+const genreByMovieStore = useMovieByGenreStore();
+
+const genreSlug = computed(() => {
+  return typeof route.params.genreSlug === 'string'
+    ? route.params.genreSlug
+    : '';
+});
+
+const currentGenre = computed(() => {
+  return (
+    genreTranslations[genreSlug.value as keyof typeof genreTranslations] ||
+    genreSlug.value
+  );
+});
+
+const isShowBtnVisible = computed(() => {
+  return (genreByMovieStore.genreMovie?.length || 0) < 50;
+});
+
+watch(
+  genreSlug,
+  (newSlug) => {
+    if (newSlug) {
+      genreByMovieStore.loadGenreMovie(newSlug);
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>

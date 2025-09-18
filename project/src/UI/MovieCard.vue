@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import type { IMovie } from '@/data/movies';
 import type { TopMovie } from '@/types/movieTypes';
 import defaultImg from '../assets/images/default-img.jpg';
 

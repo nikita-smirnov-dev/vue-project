@@ -1,6 +1,6 @@
 <template>
   <div class="genre-card">
-    <img :src="genre.img" alt="" />
+    <img class="genre-card__img" :src="genre.image" :alt="genre.title" />
     <div class="genre-card__content">
       <p class="genre-card__text base-text">{{ genre.title }}</p>
     </div>
@@ -8,11 +8,10 @@
 </template>
 
 <script setup lang="ts">
-import type { IMovie } from '@/data/movies';
-import type { IGenres } from '@/views/GenresView.vue';
+import type { MovieGenre } from '@/types/movieTypes';
 
 const props = defineProps<{
-  genre: IGenres;
+  genre: MovieGenre;
 }>();
 </script>
 
@@ -46,5 +45,12 @@ const props = defineProps<{
   padding: var(--spacing-30);
   text-align: center;
   font-weight: 700;
+}
+
+.genre-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
