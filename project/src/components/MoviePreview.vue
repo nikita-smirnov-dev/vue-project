@@ -15,7 +15,11 @@
       <p class="movie-preview__left-descr base-text">
         {{ movie.plot }}
       </p>
-      <div class="movie-preview__buttons-container">
+      <div v-if="isDetails" class="movie-preview__buttons-details">
+        <Button class="movie-preview__trailer">Трейлер</Button>
+        <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
+      </div>
+      <div v-else class="movie-preview__buttons-container">
         <Button class="movie-preview__trailer">Трейлер</Button>
         <Button class="movie-preview__film">О фильме</Button>
         <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
@@ -35,14 +39,15 @@ import { computed } from 'vue';
 import { ReHeart3Line } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
 
-import type { RandomMovie } from '@/types/movieTypes';
+import type { DetailsMovie, RandomMovie } from '@/types/movieTypes';
 import { useMovieRandomStore } from '@/stores/movieRandomStore';
 import Button from '@/UI/Button.vue';
 import Rating from '@/UI/Rating.vue';
 import defaultImage from '../assets/images/default-img.jpg';
 
 const props = defineProps<{
-  movie: RandomMovie;
+  movie: RandomMovie | DetailsMovie;
+  isDetails?: boolean;
 }>();
 
 const movieStore = useMovieRandomStore();
@@ -139,5 +144,11 @@ const formattedGenres = computed(() => {
   height: 552px;
   border-radius: 16px;
   object-fit: cover;
+}
+
+.movie-preview__buttons-details {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-16);
 }
 </style>

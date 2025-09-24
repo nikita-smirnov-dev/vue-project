@@ -3,7 +3,7 @@
     <p class="movie-info__text">
       <span class="movie-info__descr">{{ description }}</span>
       <span class="movie-info__dots">&nbsp;</span>
-      <span class="movie-info__value">{{ value }}</span>
+      <span class="movie-info__value">{{ value ?? 'отсутствует' }}</span>
     </p>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   description: string;
-  value: string;
+  value: string | number | null | undefined;
 }>();
 </script>
 

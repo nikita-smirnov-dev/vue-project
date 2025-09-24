@@ -12,21 +12,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 import MovieCard from '@/UI/MovieCard.vue';
-import moviesData from '../data/movies';
-import { useMovieTopStore } from '@/stores/movieTopStore';
 import type { TopMovieList } from '@/types/movieTypes';
-
-const topMovies = ref(moviesData);
 
 const props = defineProps<{
   movie: TopMovieList | null;
 }>();
-
-const movieTopStore = useMovieTopStore();
 </script>
 
 <style scoped>
