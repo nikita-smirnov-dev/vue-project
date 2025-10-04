@@ -10,17 +10,20 @@ import {
   type RandomMovie,
   type TopMovieList,
 } from '@/types/movieTypes';
-import { API_BASE_URL, endpoints } from './config';
+import { API_BASE_URL, endpointsMovie } from './config';
 
 export const fetchRandomMovie = async (): Promise<RandomMovie> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoints.randomMovie}`);
+    const response = await fetch(
+      `${API_BASE_URL}${endpointsMovie.randomMovie}`
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('Ответ от API в fetchRandomMovie:', data);
 
     return RandomMovieSchema.parse(data);
   } catch (error) {
@@ -31,7 +34,7 @@ export const fetchRandomMovie = async (): Promise<RandomMovie> => {
 
 export const fetchTopMovie = async (): Promise<TopMovieList> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoints.topMovie}`);
+    const response = await fetch(`${API_BASE_URL}${endpointsMovie.topMovie}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -47,7 +50,9 @@ export const fetchTopMovie = async (): Promise<TopMovieList> => {
 
 export const fetchMovieGenres = async (): Promise<GenreArray> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoints.genresMovie}`);
+    const response = await fetch(
+      `${API_BASE_URL}${endpointsMovie.genresMovie}`
+    );
     const data = await response.json();
     return GenreArraySchema.parse(data);
   } catch (error) {
@@ -63,7 +68,7 @@ export const fetchMoviesByGenre = async (
 ): Promise<MovieByGenre> => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}${endpoints.movie}?genre=${genreSlug}&count=${count}&page=${page}`
+      `${API_BASE_URL}${endpointsMovie.movie}?genre=${genreSlug}&count=${count}&page=${page}`
     );
     const data = await response.json();
     return MovieByGenreSchema.parse(data);
@@ -75,7 +80,9 @@ export const fetchMoviesByGenre = async (
 
 export const fetchMovieDetails = async (id: number): Promise<DetailsMovie> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoints.movie}/${id}`);
+    const response = await fetch(
+      `${API_BASE_URL}${endpointsMovie.movie}/${id}`
+    );
     const data = await response.json();
     return BaseMovieSchema.parse(data);
   } catch (error) {

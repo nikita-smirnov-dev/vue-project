@@ -26,9 +26,9 @@ import { onMounted } from 'vue';
 
 import MoviePreview from '@/components/MoviePreview.vue';
 import MovieTopList from '@/components/MovieTopList.vue';
-import { useMovieRandomStore } from '@/stores/movieRandomStore';
+import { useMovieRandomStore } from '@/stores/movieStore/movieRandomStore';
 import DataLoader from '@/UI/DataLoader.vue';
-import { useMovieTopStore } from '@/stores/movieTopStore';
+import { useMovieTopStore } from '@/stores/movieStore/movieTopStore';
 
 const randomMovieStore = useMovieRandomStore();
 const movieTopStore = useMovieTopStore();

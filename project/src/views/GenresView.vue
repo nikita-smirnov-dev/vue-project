@@ -24,7 +24,7 @@ import { RouterLink } from 'vue-router';
 import { onMounted } from 'vue';
 
 import GenreCard from '@/components/GenreCard.vue';
-import { useMovieGenresStore } from '@/stores/movieGenresStore';
+import { useMovieGenresStore } from '@/stores/movieStore/movieGenresStore';
 import DataLoader from '@/UI/DataLoader.vue';
 
 const genreStore = useMovieGenresStore();

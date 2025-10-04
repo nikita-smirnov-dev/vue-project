@@ -21,7 +21,11 @@
       </div>
       <div v-else class="movie-preview__buttons-container">
         <Button class="movie-preview__trailer">Трейлер</Button>
-        <Button class="movie-preview__film">О фильме</Button>
+        <Button
+          class="movie-preview__film"
+          @click="() => clickAboutMovie(movie.id)"
+          >О фильме</Button
+        >
         <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
         <Button class="movie-preview__update" @click="onNewRandomMovieClick"
           ><ReLoopRightLine
@@ -40,10 +44,11 @@ import { ReHeart3Line } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
 
 import type { DetailsMovie, RandomMovie } from '@/types/movieTypes';
-import { useMovieRandomStore } from '@/stores/movieRandomStore';
+import { useMovieRandomStore } from '@/stores/movieStore/movieRandomStore';
 import Button from '@/UI/Button.vue';
 import Rating from '@/UI/Rating.vue';
 import defaultImage from '../assets/images/default-img.jpg';
+import { useRouter } from 'vue-router';
 
 const props = defineProps<{
   movie: RandomMovie | DetailsMovie;
@@ -51,6 +56,11 @@ const props = defineProps<{
 }>();
 
 const movieStore = useMovieRandomStore();
+const router = useRouter();
+
+const clickAboutMovie = (id: number) => {
+  router.push(`/about/${id}`);
+};
 
 const onNewRandomMovieClick = () => {
   movieStore.loadRandomMovie();

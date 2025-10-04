@@ -20,13 +20,25 @@
         </div>
       </div>
     </div>
-    <Button class="setting-account__btn">Выйти из аккаунта</Button>
+    <Button class="setting-account__btn" @click="onClickLogout"
+      >Выйти из аккаунта</Button
+    >
   </div>
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/userStore/userStore';
 import Button from '@/UI/Button.vue';
 import { ReMailSendLine } from '@kalimahapps/vue-icons';
+import { useRouter } from 'vue-router';
+
+const userStore = useUserStore();
+const router = useRouter();
+
+const onClickLogout = async () => {
+  await userStore.logoutUser();
+  router.push('/');
+};
 </script>
 
 <style scoped>

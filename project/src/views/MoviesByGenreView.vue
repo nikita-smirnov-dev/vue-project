@@ -34,7 +34,7 @@ import { MdArrowBackIos } from '@kalimahapps/vue-icons';
 
 import MovieCard from '@/UI/MovieCard.vue';
 import Button from '@/UI/Button.vue';
-import { useMovieByGenreStore } from '@/stores/movieByGenreStore';
+import { useMovieByGenreStore } from '@/stores/movieStore/movieByGenreStore';
 import { genreTranslations } from '@/assets/data/genresTranslateions';
 
 const route = useRoute();

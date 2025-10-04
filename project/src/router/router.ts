@@ -29,6 +29,24 @@ const router = createRouter({
       component: () => import('@/views/MovieDetailsView.vue'),
     },
     {
+      name: 'account',
+      path: '/account',
+      component: () => import('@/views/AccountView.vue'),
+      redirect: '/account/favorites',
+      children: [
+        {
+          name: 'favorites',
+          path: 'favorites',
+          component: () => import('@/components/FavoritesMoviesList.vue'),
+        },
+        {
+          name: 'setting',
+          path: 'setting',
+          component: () => import('@/components/SettingAccount.vue'),
+        },
+      ],
+    },
+    {
       name: 'not-found',
       path: '/:pathMatch(.*)*',
       component: () => import('@/views/NotFoundView.vue'),

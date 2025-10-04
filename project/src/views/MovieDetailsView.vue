@@ -20,7 +20,7 @@
 import AboutMovie from '@/components/AboutMovie.vue';
 import MoviePreview from '@/components/MoviePreview.vue';
 import { useRoute } from 'vue-router';
-import { useMovieDetailsStore } from '@/stores/movieDetailsStore';
+import { useMovieDetailsStore } from '@/stores/movieStore/movieDetailsStore';
 import { onMounted } from 'vue';
 
 const route = useRoute();

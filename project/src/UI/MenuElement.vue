@@ -3,8 +3,9 @@
     class="menu-item base-text"
     :to="path"
     active-class="menu-item--active"
-    ><slot
-  /></router-link>
+  >
+    <slot>{{ title }}</slot>
+  </router-link>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +13,7 @@ import { RouterLink } from 'vue-router';
 
 const props = defineProps<{
   path: string;
+  title?: string;
 }>();
 </script>
 

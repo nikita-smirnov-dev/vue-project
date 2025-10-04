@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <Header @open-login="isModalOpen = true" />
+    <Header />
     <router-view />
-    <!-- <Modal><Auth /></Modal> -->
-    <Modal v-if="isModalOpen" @close="isModalOpen = false"><Auth /></Modal>
+    <Modal v-if="modalStore.isOpen" @close="modalStore.closeModal()"
+      ><Auth
+    /></Modal>
     <Footer />
   </div>
 </template>
@@ -14,8 +15,9 @@ import Auth from './components/Auth.vue';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import Modal from './components/Modal.vue';
+import { useModalStore } from './stores/modalStore/modalStore';
 
-const isModalOpen = ref(false);
+const modalStore = useModalStore();
 </script>
 
 <style scoped></style>

@@ -4,7 +4,9 @@
     <div v-else-if="form === 'register'">
       <RegisterForm @switch-form="formSwitch" />
     </div>
-    <div v-else="form === 'success'"><RegisterSuccess /></div>
+    <div v-else="form === 'success'">
+      <RegisterSuccess @switch-form="formSwitch" />
+    </div>
   </div>
 </template>
 

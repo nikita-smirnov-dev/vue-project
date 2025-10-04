@@ -1,13 +1,27 @@
 <template>
   <div class="input-form">
     <slot />
-    <input class="input" type="text" :placeholder="placeholder" />
+    <input
+      class="input"
+      :type="type"
+      :placeholder="placeholder"
+      :value="modelValue"
+      @input="
+        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+      "
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   placeholder?: string;
+  type?: string;
+  modelValue: string;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string): void;
 }>();
 </script>
 

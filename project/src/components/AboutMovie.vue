@@ -2,8 +2,8 @@
   <div class="about-movie">
     <h2 class="about-movie__title section-title">О фильме</h2>
     <MovieInfo description="Язык оригинала" :value="languageLabel" />
-    <MovieInfo description="Бюджет" :value="`${movie.budget} руб.`" />
-    <MovieInfo description="Выручка" :value="`${movie.revenue} руб.`" />
+    <MovieInfo description="Бюджет" :value="formatMoney(movie.budget)" />
+    <MovieInfo description="Выручка" :value="formatMoney(movie.revenue)" />
     <MovieInfo description="Режиссёр" :value="movie.director" />
     <MovieInfo description="Продакшен" :value="movie.production" />
     <MovieInfo description="Награды" :value="movie.awardsSummary" />
@@ -33,6 +33,10 @@ const props = defineProps<{
 const languageLabel = computed(
   () => languageDetails[props.movie.language ?? 'отсутствует']
 );
+
+const formatMoney = (value: string | number | null | undefined): string => {
+  return value != null ? `${value} руб.` : 'отсуствует';
+};
 </script>
 
 <style scoped>

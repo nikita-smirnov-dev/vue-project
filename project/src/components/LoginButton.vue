@@ -1,8 +1,14 @@
 <template>
-  <button class="btn-reset btn-login base-text">Войти</button>
+  <button class="btn-reset btn-login base-text">
+    <slot>{{ title }}</slot>
+  </button>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = defineProps<{
+  title?: string;
+}>();
+</script>
 
 <style scoped>
 .btn-login {
