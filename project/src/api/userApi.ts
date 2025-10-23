@@ -1,51 +1,67 @@
 import { API_BASE_URL, endpointsUser } from './config';
 import { UserSchema, type User } from '@/types/userTypes';
 
-async function validateResponse(response: Response): Promise<Response> {
-  if (!response.ok) {
-    throw new Error(await response.text());
+async function validateResponse(response: Response) {
+  if (response.ok) return response;
+
+  let message = 'Произошла ошибка запроса';
+
+  try {
+    const data = await response.json();
+    message = data.message || message;
+  } catch {
+    const text = await response.text();
+    message = text || message;
   }
 
-  return response;
+  if (response.status === 400) {
+    message = 'Неверный email или пароль';
+  } else if (response.status === 401) {
+    message = 'Необходима авторизация';
+  } else if (response.status === 409) {
+    message = 'Пользователь с таким email уже существует';
+  } else if (response.status >= 500) {
+    message = 'Ошибка сервера, попробуйте позже';
+  }
+
+  throw { status: response.status, message };
 }
 
-export const registerUser = (
+export const registerUser = async (
   name: string,
   surname: string,
   email: string,
   password: string
 ) => {
-  return fetch(`${API_BASE_URL}${endpointsUser.user}`, {
+  const response = await fetch(`${API_BASE_URL}${endpointsUser.user}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
     body: JSON.stringify({ name, surname, email, password }),
-  }).then(async (response) => {
-    if (response.status === 409) {
-      throw new Error('Пользователь с таким email уже существует');
-    }
-    await validateResponse(response);
-
-    const data = await response.json();
-    return data;
   });
+  await validateResponse(response);
+  const data = await response.json();
+  return data;
 };
 
-export const loginUser = (email: string, password: string): Promise<User> => {
-  return fetch(`${API_BASE_URL}${endpointsUser.login}`, {
+export const loginUser = async (
+  email: string,
+  password: string
+): Promise<User> => {
+  const response = await fetch(`${API_BASE_URL}${endpointsUser.login}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     credentials: 'include',
     body: JSON.stringify({ email, password }),
-  }).then(async (response) => {
-    await validateResponse(response);
-    const data = await response.json();
-    return data;
   });
+
+  await validateResponse(response);
+  const data = await response.json();
+  return data;
 };
 
 export const fetchMe = (): Promise<User> => {
@@ -62,9 +78,10 @@ export const fetchMe = (): Promise<User> => {
   });
 };
 
-export const logout = (): Promise<void> => {
-  return fetch(`${API_BASE_URL}${endpointsUser.logout}`, {
+export const logout = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}${endpointsUser.logout}`, {
     credentials: 'include',
     method: 'GET',
-  }).then(() => undefined);
+  });
+  await validateResponse(response);
 };

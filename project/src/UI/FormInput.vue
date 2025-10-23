@@ -1,5 +1,5 @@
 <template>
-  <div class="input-form">
+  <div class="input-form" :class="{ 'input-error': isError }">
     <slot />
     <input
       class="input"
@@ -9,6 +9,7 @@
       @input="
         $emit('update:modelValue', ($event.target as HTMLInputElement).value)
       "
+      @blur="$emit('blur', $event)"
     />
   </div>
 </template>
@@ -18,10 +19,12 @@ const props = defineProps<{
   placeholder?: string;
   type?: string;
   modelValue: string;
+  isError?: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void;
+  (e: 'blur', event: FocusEvent): void;
 }>();
 </script>
 
@@ -47,5 +50,13 @@ const emit = defineEmits<{
   font-weight: 400;
   font-size: var(--font-size-18);
   line-height: 1.33333;
+}
+
+.input-form.input-error {
+  border-color: var(--color-error);
+}
+
+:global(.input-form.input-error .modal__form-icon) {
+  color: var(--color-error);
 }
 </style>

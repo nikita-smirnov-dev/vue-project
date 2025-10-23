@@ -63,3 +63,9 @@
   color: var(--color-black);
   background-color: transparent;
 }
+
+.modal__form-error {
+  display: inline-block;
+  padding-top: 5px;
+  color: var(--color-error);
+}
