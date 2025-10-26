@@ -8,33 +8,37 @@
             class="modal-form__input"
             type="email"
             placeholder="Электронная почта"
-            v-model="email"
-            @blur="onEmailBlur"
-            @input="onEmailInput"
-            :isError="!!emailError"
+            v-model="emailLoginValue"
+            @blur="emailLoginField.onBlur"
+            @input="emailLoginField.onInput"
+            :isError="!!emailLoginField.error.value"
           >
             <ReMailSendLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="emailBlur && emailError">{{
-            emailError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="emailLoginField.isTouched && emailLoginField.error.value"
+            >{{ emailLoginField.error }}</span
+          >
         </FormField>
         <FormField label="Пароль">
           <FormInput
             class="modal-form__input"
             type="password"
             placeholder="Пароль"
-            v-model="password"
-            @blur="onPasswordBlur"
-            @input="onPasswordInput"
-            :isError="!!passwordError"
+            v-model="passwordLoginValue"
+            @blur="passwordLoginField.onBlur"
+            @input="passwordLoginField.onInput"
+            :isError="!!passwordLoginField.error.value"
           >
             <ReKeyLine class="modal__form-icon" />
           </FormInput>
           <span
             class="modal__form-error"
-            v-if="passwordBlur && passwordError"
-            >{{ passwordError }}</span
+            v-if="
+              passwordLoginField.isTouched && passwordLoginField.error.value
+            "
+            >{{ passwordLoginField.error }}</span
           >
         </FormField>
         <p v-if="formError" class="form-error">
@@ -48,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ReMailSendLine } from '@kalimahapps/vue-icons';
 import { ReKeyLine } from '@kalimahapps/vue-icons';
@@ -58,99 +63,60 @@ import FormInput from '@/UI/FormInput.vue';
 import Logo from '@/UI/Logo.vue';
 import { useUserStore } from '@/stores/userStore/userStore';
 import { useModalStore } from '@/stores/modalStore/modalStore';
-import { CreateLoginSchema } from '@/types/userTypes';
-import { ref, watch } from 'vue';
-import { validateField } from '@/utils/validateField';
+import { CreateLoginSchema, type ApiError } from '@/types/userTypes';
+import { useFormField } from '@/composables/useFormField';
+import { useFieldValue } from '@/composables/useFieldValue';
 
 const modalStore = useModalStore();
 const router = useRouter();
 const store = useUserStore();
 const emit = defineEmits(['switch-form']);
 
-const email = ref('');
-const password = ref('');
+const emailLoginField = useFormField(CreateLoginSchema, 'email');
+const passwordLoginField = useFormField(CreateLoginSchema, 'password');
 
-const emailError = ref('');
-const passwordError = ref('');
-
-const emailBlur = ref(false);
-const passwordBlur = ref(false);
+const emailLoginValue = useFieldValue(emailLoginField);
+const passwordLoginValue = useFieldValue(passwordLoginField);
 
 const formError = ref('');
 
-const onEmailBlur = () => {
-  emailBlur.value = true;
-  emailError.value = validateField(CreateLoginSchema, 'email', email.value);
-};
-
-const onPasswordBlur = () => {
-  passwordBlur.value = true;
-  passwordError.value = validateField(
-    CreateLoginSchema,
-    'password',
-    password.value
-  );
-};
-
-const onEmailInput = () => {
-  if (emailError.value) emailError.value = '';
-};
-
-const onPasswordInput = () => {
-  if (passwordError.value) passwordError.value = '';
-};
-
-watch(email, (newVal) => {
-  if (emailBlur.value) {
-    emailError.value = validateField(CreateLoginSchema, 'email', newVal);
-  }
-});
-
-watch(password, (newVal) => {
-  if (passwordBlur.value) {
-    passwordError.value = validateField(CreateLoginSchema, 'password', newVal);
-  }
-});
-
 const onSubmit = async () => {
-  emailBlur.value = true;
-  passwordBlur.value = true;
+  emailLoginField.onBlur();
+  passwordLoginField.onBlur();
 
-  emailError.value = validateField(CreateLoginSchema, 'email', email.value);
-  passwordError.value = validateField(
-    CreateLoginSchema,
-    'password',
-    password.value
-  );
-
-  if (emailError.value || passwordError.value) {
+  if (emailLoginField.error.value || passwordLoginField.error.value) {
     return;
   }
 
   formError.value = '';
 
   try {
-    await store.login(email.value, password.value);
+    await store.login(emailLoginValue.value, passwordLoginValue.value);
 
     if (store.user) {
       modalStore.closeModal();
       router.push('/');
     }
-  } catch (error: any) {
-    switch (error.status) {
-      case 400:
-        formError.value = error.message;
-        break;
-      case 401:
-        formError.value = error.message;
-        break;
-      case 500:
-      default:
-        formError.value = error.message;
-        break;
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null) {
+      const err = error as ApiError;
+
+      switch (err.status) {
+        case 400:
+          formError.value = err.message;
+          break;
+        case 401:
+          formError.value = err.message;
+          break;
+        case 500:
+        default:
+          formError.value = err.message;
+          break;
+      }
     }
   }
 };
+
 const onRegisterClick = () => {
   emit('switch-form', 'register');
 };

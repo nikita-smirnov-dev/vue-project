@@ -20,7 +20,7 @@ export const CreateLoginSchema = z.object({
     .min(8, 'Длинна пароля должна быть не менее 8 символов'),
 });
 
-export const BaseRegisterSchema = z.object({
+export const CreateRegisterSchema = z.object({
   name: z
     .string()
     .nonempty('Имя обязательно')
@@ -50,6 +50,8 @@ export const BaseRegisterSchema = z.object({
   confirmPassword: z.string().nonempty('Подтверждение пароля обязательно'),
 });
 
+export type LoginForm = z.infer<typeof CreateLoginSchema>;
+export type RegisterForm = z.infer<typeof CreateRegisterSchema>;
 // export const CreateRegisterSchema = BaseRegisterSchema.refine(
 //   (data) => data.password === data.confirmPassword,
 //   {
@@ -57,3 +59,5 @@ export const BaseRegisterSchema = z.object({
 //     path: ['confirmPassword'],
 //   }
 // );
+
+export type ApiError = { status: number; message: string };

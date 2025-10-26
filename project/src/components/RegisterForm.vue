@@ -9,80 +9,90 @@
             class="modal-form__input"
             type="email"
             placeholder="Электронная почта"
-            v-model="email"
-            @blur="onEmailBlur"
-            @input="onEmailInput"
-            :isError="!!emailError"
+            v-model="emailRegisterValue"
+            @blur="emailRegisterField.onBlur"
+            @input="emailRegisterField.onInput"
+            :isError="!!emailRegisterField.error.value"
           >
             <ReMailSendLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="emailError">{{
-            emailError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="emailRegisterField.error.value"
+            >{{ emailRegisterField.error }}</span
+          >
         </FormField>
         <FormField label="Имя">
           <FormInput
             class="modal-form__input"
             placeholder="Имя"
             type="text"
-            v-model="name"
-            @blur="onNameBlur"
-            @input="onNameInput"
-            :isError="!!nameError"
+            v-model="nameRegisterValue"
+            @blur="nameRegisterField.onBlur"
+            @input="nameRegisterField.onInput"
+            :isError="!!nameRegisterField.error.value"
           >
             <ReUserLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="nameError">{{
-            nameError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="nameRegisterField.error.value"
+            >{{ nameRegisterField.error }}</span
+          >
         </FormField>
         <FormField label="Фамилия">
           <FormInput
             class="modal-form__input"
             placeholder="Фамилия"
             type="text"
-            v-model="surname"
-            @blur="onSurnameBlur"
-            @input="onSurnameInput"
-            :isError="!!surnameError"
+            v-model="surnameRegisterValue"
+            @blur="surnameRegisterField.onBlur"
+            @input="surnameRegisterField.onInput"
+            :isError="!!surnameRegisterField.error.value"
           >
             <ReUserLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="surnameError">{{
-            surnameError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="surnameRegisterField.error.value"
+            >{{ surnameRegisterField.error }}</span
+          >
         </FormField>
         <FormField label="Пароль">
           <FormInput
             class="modal-form__input"
             placeholder="Пароль"
             type="password"
-            v-model="password"
-            @blur="onPasswordBlur"
-            @input="onPasswordInput"
-            :isError="!!passwordError"
+            v-model="passwordRegisterValue"
+            @blur="passwordRegisterField.onBlur"
+            @input="passwordRegisterField.onInput"
+            :isError="!!passwordRegisterField.error.value"
           >
             <ReKeyLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="passwordError">{{
-            passwordError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="passwordRegisterField.error.value"
+            >{{ passwordRegisterField.error }}</span
+          >
         </FormField>
         <FormField label="Подтвердите пароль">
           <FormInput
             class="modal-form__input"
             type="password"
             placeholder="Подтвердите пароль"
-            v-model="confirmPassword"
-            @blur="onConfirmPasswordBlur"
-            @input="onConfirmPasswordInput"
-            :isError="!!confirmPasswordError"
+            v-model="confirmPasswordRegisterValue"
+            @blur="confirmPasswordRegisterField.onBlur"
+            @input="confirmPasswordRegisterField.onInput"
+            :isError="!!confirmPasswordRegisterField.error.value"
           >
             <ReKeyLine class="modal__form-icon" />
           </FormInput>
-          <span class="modal__form-error" v-if="confirmPasswordError">{{
-            confirmPasswordError
-          }}</span>
+          <span
+            class="modal__form-error"
+            v-if="confirmPasswordRegisterField.error.value"
+            >{{ confirmPasswordRegisterField.error }}</span
+          >
         </FormField>
         <p v-if="formError" class="form-error">
           {{ formError }}
@@ -105,149 +115,82 @@ import Button from '@/UI/Button.vue';
 import FormField from '@/UI/FormField.vue';
 import FormInput from '@/UI/FormInput.vue';
 import { useUserStore } from '@/stores/userStore/userStore';
-import { validateField } from '@/utils/validateField';
-import { BaseRegisterSchema } from '@/types/userTypes';
+import { CreateRegisterSchema, type ApiError } from '@/types/userTypes';
+import { useFormField } from '@/composables/useFormField';
+import { useFieldValue } from '@/composables/useFieldValue';
 
 const store = useUserStore();
 const emit = defineEmits(['switch-form']);
 
-const name = ref('');
-const surname = ref('');
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const emailRegisterField = useFormField(CreateRegisterSchema, 'email');
+const nameRegisterField = useFormField(CreateRegisterSchema, 'name');
+const surnameRegisterField = useFormField(CreateRegisterSchema, 'surname');
+const passwordRegisterField = useFormField(CreateRegisterSchema, 'password');
+const confirmPasswordRegisterField = useFormField(
+  CreateRegisterSchema,
+  'confirmPassword',
+  passwordRegisterField.value
+);
 
-const nameError = ref('');
-const surnameError = ref('');
-const emailError = ref('');
-const passwordError = ref('');
-const confirmPasswordError = ref('');
-
-const nameBlur = ref(false);
-const surnameBlur = ref(false);
-const emailBlur = ref(false);
-const passwordBlur = ref(false);
-const confirmPasswordBlur = ref(false);
+const emailRegisterValue = useFieldValue(emailRegisterField);
+const nameRegisterValue = useFieldValue(nameRegisterField);
+const surnameRegisterValue = useFieldValue(surnameRegisterField);
+const passwordRegisterValue = useFieldValue(passwordRegisterField);
+const confirmPasswordRegisterValue = useFieldValue(
+  confirmPasswordRegisterField
+);
 
 const formError = ref('');
 
-const onNameBlur = () => {
-  nameBlur.value = true;
-  nameError.value = validateField(BaseRegisterSchema, 'name', name.value);
-};
-const onSurnameBlur = () => {
-  surnameBlur.value = true;
-  surnameError.value = validateField(
-    BaseRegisterSchema,
-    'surname',
-    surname.value
-  );
-};
-const onEmailBlur = () => {
-  emailBlur.value = true;
-  emailError.value = validateField(BaseRegisterSchema, 'email', email.value);
-};
-
-const onPasswordBlur = () => {
-  passwordBlur.value = true;
-  passwordError.value = validateField(
-    BaseRegisterSchema,
-    'password',
-    password.value
-  );
-};
-
-const onConfirmPasswordBlur = () => {
-  confirmPasswordBlur.value = true;
-  confirmPasswordError.value = validateField(
-    BaseRegisterSchema,
-    'confirmPassword',
-    confirmPassword.value
-  );
-  if (!confirmPasswordError.value && password.value !== confirmPassword.value) {
-    confirmPasswordError.value = 'Пароли не совпадают';
-  }
-};
-
-const onNameInput = () => {
-  if (nameError.value) nameError.value = '';
-};
-
-const onSurnameInput = () => {
-  if (surnameError.value) surnameError.value = '';
-};
-
-const onEmailInput = () => {
-  if (emailError.value) emailError.value = '';
-};
-
-const onPasswordInput = () => {
-  if (passwordError.value) passwordError.value = '';
-};
-const onConfirmPasswordInput = () => {
-  if (confirmPasswordError.value) confirmPasswordError.value = '';
-};
-
 const onSubmit = async () => {
-  nameBlur.value = true;
-  surnameBlur.value = true;
-  emailBlur.value = true;
-  passwordBlur.value = true;
-  confirmPasswordBlur.value = true;
-
-  nameError.value = validateField(BaseRegisterSchema, 'name', name.value);
-  surnameError.value = validateField(
-    BaseRegisterSchema,
-    'surname',
-    surname.value
-  );
-  emailError.value = validateField(BaseRegisterSchema, 'email', email.value);
-  passwordError.value = validateField(
-    BaseRegisterSchema,
-    'password',
-    password.value
-  );
-  confirmPasswordError.value = validateField(
-    BaseRegisterSchema,
-    'confirmPassword',
-    confirmPassword.value
-  );
+  emailRegisterField.onBlur();
+  nameRegisterField.onBlur();
+  surnameRegisterField.onBlur();
+  passwordRegisterField.onBlur();
+  confirmPasswordRegisterField.onBlur();
 
   if (
-    nameError.value ||
-    surnameError.value ||
-    emailError.value ||
-    passwordError.value ||
-    confirmPasswordError.value
+    emailRegisterField.error.value ||
+    nameRegisterField.error.value ||
+    surnameRegisterField.error.value ||
+    passwordRegisterField.error.value ||
+    confirmPasswordRegisterField.error.value
   ) {
     return;
   }
 
+  formError.value = '';
+  store.error = null;
+
   try {
     await store.register(
-      name.value,
-      surname.value,
-      email.value,
-      password.value
+      nameRegisterValue.value,
+      surnameRegisterValue.value,
+      emailRegisterValue.value,
+      passwordRegisterValue.value
     );
     if (!store.error) {
       emit('switch-form', 'success');
     }
-  } catch (error: any) {
-    switch (error.status) {
-      case 400:
-        formError.value = error.message;
-        break;
-      case 401:
-        formError.value = error.message;
-        break;
-      case 409:
-        formError.value = error.message;
-        break;
-      case 500:
-      default:
-        formError.value = error.message || 'Ошибка регистрации';
-        break;
+  } catch (error: unknown) {
+    if (typeof error === 'object' && error !== null) {
+      const err = error as ApiError;
+
+      switch (err.status) {
+        case 400:
+          formError.value = err.message;
+          break;
+        case 401:
+          formError.value = err.message;
+          break;
+        case 409:
+          formError.value = err.message;
+          break;
+        case 500:
+        default:
+          formError.value = err.message || 'Ошибка регистрации';
+          break;
+      }
     }
   }
 };

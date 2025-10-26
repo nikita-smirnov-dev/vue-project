@@ -18,8 +18,8 @@ export const useUserStore = defineStore('user', () => {
     email: string,
     password: string
   ) => {
-    await registerUser(name, surname, email, password);
     error.value = null;
+    await registerUser(name, surname, email, password);
   };
 
   const loadUser = async () => {
