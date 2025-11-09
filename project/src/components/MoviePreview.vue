@@ -17,7 +17,12 @@
       </p>
       <div v-if="isDetails" class="movie-preview__buttons-details">
         <Button class="movie-preview__trailer">Трейлер</Button>
-        <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
+        <Button class="movie-preview__favorite" @click="toggleFavorite">
+          <ReHeart3Fill
+            class="movie-preview__favorite-icon"
+            v-if="isFavorite" />
+          <ReHeart3Line v-else
+        /></Button>
       </div>
       <div v-else class="movie-preview__buttons-container">
         <Button class="movie-preview__trailer">Трейлер</Button>
@@ -26,7 +31,13 @@
           @click="() => clickAboutMovie(movie.id)"
           >О фильме</Button
         >
-        <Button class="movie-preview__favorite"><ReHeart3Line /></Button>
+        <Button class="movie-preview__favorite" @click="toggleFavorite">
+          <ReHeart3Fill
+            class="movie-preview__favorite-icon"
+            v-if="isFavorite"
+          />
+          <ReHeart3Line v-else />
+        </Button>
         <Button class="movie-preview__update" @click="onNewRandomMovieClick"
           ><ReLoopRightLine
         /></Button>
@@ -40,7 +51,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ReHeart3Line } from '@kalimahapps/vue-icons';
+import { ReHeart3Line, ReHeart3Fill } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
 
 import type { DetailsMovie, RandomMovie } from '@/types/movieTypes';
@@ -49,6 +60,9 @@ import Button from '@/UI/Button.vue';
 import Rating from '@/UI/Rating.vue';
 import defaultImage from '../assets/images/default-img.jpg';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/userStore/userStore';
+import { useModalStore } from '@/stores/modalStore/modalStore';
+import { useMovieFavoritesStore } from '@/stores/movieStore/movieFavorites';
 
 const props = defineProps<{
   movie: RandomMovie | DetailsMovie;
@@ -56,6 +70,9 @@ const props = defineProps<{
 }>();
 
 const movieStore = useMovieRandomStore();
+const isUserStore = useUserStore();
+const modalStore = useModalStore();
+const isFavoriteStore = useMovieFavoritesStore();
 const router = useRouter();
 
 const clickAboutMovie = (id: number) => {
@@ -64,6 +81,23 @@ const clickAboutMovie = (id: number) => {
 
 const onNewRandomMovieClick = () => {
   movieStore.loadRandomMovie();
+};
+
+const isFavorite = computed(() => {
+  return isFavoriteStore.isFavorite(props.movie.id);
+});
+
+const toggleFavorite = () => {
+  if (!isUserStore.user) {
+    modalStore.openModal();
+    return;
+  }
+
+  if (isFavorite.value) {
+    isFavoriteStore.removeFavoriteMovie(props.movie.id);
+  } else {
+    isFavoriteStore.addFavoriteMovie(props.movie);
+  }
 };
 
 const formattedRuntime = computed(() => {
@@ -147,6 +181,10 @@ const formattedGenres = computed(() => {
   padding: var(--spacing-18) var(--spacing-24);
   border: 1px solid rgba(0, 0, 0, 0.4);
   background-color: var(--color-shaft-button);
+}
+
+.movie-preview__favorite-icon {
+  color: var(--color-active-accent);
 }
 
 .movie-preview__right img {

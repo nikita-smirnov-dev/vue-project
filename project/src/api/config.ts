@@ -5,6 +5,7 @@ export const endpointsMovie = {
   topMovie: '/movie/top10',
   genresMovie: '/movie/genres',
   movie: '/movie',
+  favorites: '/favorites',
 };
 
 export const endpointsUser = {

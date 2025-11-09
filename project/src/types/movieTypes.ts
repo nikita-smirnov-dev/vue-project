@@ -81,3 +81,25 @@ export type MovieByGenre = z.infer<typeof MovieByGenreSchema>;
 // Details movie schema
 
 export type DetailsMovie = z.infer<typeof BaseMovieSchema>;
+
+// Favorites movies schema
+
+export const FavoritesMoviesSchema = z.array(
+  BaseMovieSchema.pick({
+    id: true,
+    posterUrl: true,
+  })
+);
+
+export type FavoritesMovies = z.infer<typeof FavoritesMoviesSchema>;
+
+export const FavoriteToMovieSchema = z
+  .object({
+    favorites: z.array(z.string()),
+    surname: z.string(),
+    name: z.string(),
+    email: z.string(),
+  })
+  .partial();
+
+export type FavoriteToMovie = z.infer<typeof FavoriteToMovieSchema>;

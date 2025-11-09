@@ -2,6 +2,7 @@ import { fetchMe, loginUser, logout, registerUser } from '@/api/userApi';
 import type { User } from '@/types/userTypes';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { useMovieFavoritesStore } from '../movieStore/movieFavorites';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
@@ -10,6 +11,9 @@ export const useUserStore = defineStore('user', () => {
   const login = async (email: string, password: string) => {
     await loginUser(email, password);
     user.value = await fetchMe();
+
+    const favoriteStore = useMovieFavoritesStore();
+    await favoriteStore.loadFavoritesMovie();
   };
 
   const register = async (

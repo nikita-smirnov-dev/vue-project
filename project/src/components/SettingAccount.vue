@@ -2,11 +2,11 @@
   <div class="setting-account">
     <div class="setting-account__block">
       <div class="setting-account__content">
-        <div class="setting-account__avatar">KK</div>
+        <div class="setting-account__avatar">{{ getInitials() }}</div>
         <div class="setting-account__info">
           <p class="setting-account__text">Имя Фамилия</p>
           <span class="setting-account__fio">
-            Константин Константинопольский
+            {{ fullName }}
           </span>
         </div>
       </div>
@@ -16,7 +16,9 @@
         </div>
         <div class="setting-account__info">
           <p class="setting-account__text">Электронная почта</p>
-          <span class="setting-account__fio"> example@domain.com </span>
+          <span class="setting-account__fio">
+            {{ userStore.user?.email }}
+          </span>
         </div>
       </div>
     </div>
@@ -30,10 +32,22 @@
 import { useUserStore } from '@/stores/userStore/userStore';
 import Button from '@/UI/Button.vue';
 import { ReMailSendLine } from '@kalimahapps/vue-icons';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 const router = useRouter();
+
+const getInitials = (): string => {
+  const name = userStore.user?.name || '';
+  const surname = userStore.user?.surname || '';
+
+  return `${name.charAt(0)}${surname.charAt(0)}`.toUpperCase();
+};
+
+const fullName = computed(() =>
+  userStore.user ? `${userStore.user?.name} ${userStore.user?.surname}` : ''
+);
 
 const onClickLogout = async () => {
   await userStore.logoutUser();
