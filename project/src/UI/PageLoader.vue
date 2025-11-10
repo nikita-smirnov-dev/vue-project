@@ -1,0 +1,36 @@
+<template>
+  <div class="loader-wrapper">
+    <div class="loader"></div>
+  </div>
+</template>
+
+<script setup lang="ts"></script>
+
+<style scoped>
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  filter: blur(100);
+  /* background: linear-gradient(180deg, #0a1a3a 0%, #2a2a4a 50%, #5d4b8c 100%); */
+}
+
+.loader {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 20px solid rgba(255, 255, 255, 0.1);
+  border-top: 20px solid #6366f1;
+  border-right: 20px solid #8b5cf6;
+  animation: rotate 1s linear infinite;
+  box-shadow: 0 0 50px rgba(99, 102, 241, 0.3),
+    inset 0 0 50px rgba(139, 92, 246, 0.1);
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>
