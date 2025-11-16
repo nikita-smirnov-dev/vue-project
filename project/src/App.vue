@@ -7,8 +7,8 @@
     <Modal v-if="modalStore.isOpen" @close="modalStore.closeModal()"
       ><Auth
     /></Modal>
-    <Footer />
   </div>
+  <Footer />
 </template>
 
 <script setup lang="ts">
