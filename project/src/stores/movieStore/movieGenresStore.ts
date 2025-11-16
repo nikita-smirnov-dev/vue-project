@@ -2,7 +2,7 @@ import { fetchMovieGenres } from '@/api/movieApi';
 import { genreImageName } from '@/assets/data/genresImageName';
 import { genreTranslations } from '@/assets/data/genresTranslateions';
 import { type MovieGenre } from '@/types/movieTypes';
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useMovieGenresStore = defineStore('genres', () => {
@@ -11,8 +11,9 @@ export const useMovieGenresStore = defineStore('genres', () => {
   const error = ref<string | null>(null);
 
   const loadMovieGenres = async () => {
-    loader.value = true;
     error.value = null;
+    loader.value = true;
+
     try {
       const genreList = await fetchMovieGenres();
 
@@ -43,3 +44,7 @@ export const useMovieGenresStore = defineStore('genres', () => {
     error,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useMovieGenresStore, import.meta.hot));
+}

@@ -27,7 +27,6 @@ export const fetchRandomMovie = async (): Promise<RandomMovie> => {
     }
 
     const data = await response.json();
-    console.log('Ответ от API в fetchRandomMovie:', data);
 
     return RandomMovieSchema.parse(data);
   } catch (error) {

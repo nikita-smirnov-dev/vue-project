@@ -1,6 +1,6 @@
 <template>
   <div class="modal">
-    <Logo class="modal-logo" />
+    <Logo class="modal-logo" :isLink="false" />
     <form class="modal-form" @submit.prevent="onSubmit">
       <div class="modal-form__field">
         <FormField label="Электронная почта">

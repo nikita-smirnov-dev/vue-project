@@ -95,7 +95,7 @@ const removeToFavorite = () => {
   z-index: 1;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .movie-card__close-icon {

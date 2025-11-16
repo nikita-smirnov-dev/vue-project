@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import type { RandomMovie } from '@/types/movieTypes';
 import { fetchRandomMovie } from '@/api/movieApi';
 
@@ -14,6 +14,7 @@ export const useMovieRandomStore = defineStore('random', () => {
 
     try {
       const data = await fetchRandomMovie();
+      console.log('Ответ после Retry:', data);
       movieRandom.value = data;
     } catch (err) {
       console.error(err);
@@ -31,3 +32,7 @@ export const useMovieRandomStore = defineStore('random', () => {
     error,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useMovieRandomStore, import.meta.hot));
+}

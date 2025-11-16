@@ -6,6 +6,7 @@ import { useMovieFavoritesStore } from '../movieStore/movieFavorites';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref<User | null>(null);
+  const loader = ref(false);
   const error = ref<string | null>(null);
 
   const loadUserFromStorage = async () => {
@@ -40,15 +41,18 @@ export const useUserStore = defineStore('user', () => {
   };
 
   const loadUser = async () => {
+    loader.value = true;
+    error.value = null;
+
     try {
       user.value = await fetchMe();
 
       localStorage.setItem('user', JSON.stringify(user.value));
-
-      const favoriteStore = useMovieFavoritesStore();
-      favoriteStore.movieFavorites = null;
-    } catch {
+    } catch (err) {
       user.value = null;
+      error.value = 'Не удалось загрузить данные пользователя';
+    } finally {
+      loader.value = false;
     }
   };
 
@@ -64,6 +68,7 @@ export const useUserStore = defineStore('user', () => {
   return {
     user,
     error,
+    loader,
     login,
     register,
     loadUser,

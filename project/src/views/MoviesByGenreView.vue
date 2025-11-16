@@ -1,5 +1,8 @@
 <template>
-  <main>
+  <template v-if="isInitialLoading">
+    <PageLoader />
+  </template>
+  <template v-else>
     <section class="movies-genres">
       <div class="movies-genres__block">
         <router-link to="/genres" class="movies-genres__button">
@@ -9,14 +12,32 @@
           {{ currentGenre }}
         </h1>
       </div>
-      <ul class="movies-genres__list list-reset">
-        <li v-for="item of genreByMovieStore.genreMovie" :key="item.id">
-          <router-link :to="`/about/${item.id}`">
-            <MovieCard :movie="item" :hide-rating="false" />
-          </router-link>
-        </li>
-      </ul>
-      <div class="movies-genres__btn-wrapper" v-if="isShowBtnVisible">
+
+      <template v-if="genreByMovieStore.loader">
+        <DataLoader />
+      </template>
+
+      <template v-else-if="genreByMovieStore.error">
+        <ErrorMessage
+          :message="genreByMovieStore.error"
+          :onRetry="genreByMovieStore.loadGenreMovie"
+        />
+      </template>
+
+      <template v-else>
+        <ul class="movies-genres__list list-reset">
+          <li v-for="item of genreByMovieStore.genreMovie" :key="item.id">
+            <router-link :to="`/about/${item.id}`">
+              <MovieCard :movie="item" :hide-rating="false" />
+            </router-link>
+          </li>
+        </ul>
+      </template>
+
+      <div
+        class="movies-genres__btn-wrapper"
+        v-if="isShowBtnVisible && genreByMovieStore.genreMovie.length !== 0"
+      >
         <Button
           class="movies-genres__btn"
           @click="genreByMovieStore.loadMoreMovies()"
@@ -24,7 +45,7 @@
         >
       </div>
     </section>
-  </main>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -36,9 +57,16 @@ import MovieCard from '@/UI/MovieCard.vue';
 import Button from '@/UI/Button.vue';
 import { useMovieByGenreStore } from '@/stores/movieStore/movieByGenreStore';
 import { genreTranslations } from '@/assets/data/genresTranslateions';
+import PageLoader from '@/UI/PageLoader.vue';
+import DataLoader from '@/UI/DataLoader.vue';
+import ErrorMessage from '@/UI/ErrorMessage.vue';
 
 const route = useRoute();
 const genreByMovieStore = useMovieByGenreStore();
+
+const isInitialLoading = computed(() => {
+  return genreByMovieStore.loader && genreByMovieStore.genreMovie.length === 0;
+});
 
 const genreSlug = computed(() => {
   return typeof route.params.genreSlug === 'string'

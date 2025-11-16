@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <Logo class="header-logo" color="white" />
+    <Logo class="header-logo" color="white" :is-link="true" />
     <Navigation />
     <Search />
     <LoginButton v-if="userStore.user">

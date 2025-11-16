@@ -4,7 +4,7 @@ import {
   fetchRemoveFavoriteMovie,
 } from '@/api/movieApi';
 import type { FavoritesMovies } from '@/types/movieTypes';
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
@@ -93,3 +93,9 @@ export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
     error,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    acceptHMRUpdate(useMovieFavoritesStore, import.meta.hot)
+  );
+}

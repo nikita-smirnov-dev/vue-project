@@ -1,6 +1,6 @@
 import { fetchTopMovie } from '@/api/movieApi';
 import type { TopMovieList } from '@/types/movieTypes';
-import { defineStore } from 'pinia';
+import { acceptHMRUpdate, defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useMovieTopStore = defineStore('movieTop', () => {
@@ -32,3 +32,7 @@ export const useMovieTopStore = defineStore('movieTop', () => {
     error,
   };
 });
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useMovieTopStore, import.meta.hot));
+}
