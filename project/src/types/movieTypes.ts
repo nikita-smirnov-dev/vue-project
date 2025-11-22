@@ -103,3 +103,23 @@ export const FavoriteToMovieSchema = z
   .partial();
 
 export type FavoriteToMovie = z.infer<typeof FavoriteToMovieSchema>;
+
+// Search item schema
+
+export const MovieSearchByTitleSchema = BaseMovieSchema.pick({
+  id: true,
+  posterUrl: true,
+  releaseYear: true,
+  tmdbRating: true,
+  genres: true,
+  runtime: true,
+  title: true,
+});
+
+export type MovieSearchByTitle = z.infer<typeof MovieSearchByTitleSchema>;
+
+// Search title schema
+
+export const MovieSearchListSchema = z.array(MovieSearchByTitleSchema);
+
+export type MovieSearchList = z.infer<typeof MovieSearchListSchema>;

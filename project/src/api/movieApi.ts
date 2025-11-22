@@ -4,6 +4,7 @@ import {
   FavoriteToMovieSchema,
   GenreArraySchema,
   MovieByGenreSchema,
+  MovieSearchListSchema,
   RandomMovieSchema,
   TopMovieListSchema,
   type DetailsMovie,
@@ -11,6 +12,7 @@ import {
   type FavoriteToMovie,
   type GenreArray,
   type MovieByGenre,
+  type MovieSearchList,
   type RandomMovie,
   type TopMovieList,
 } from '@/types/movieTypes';
@@ -143,6 +145,22 @@ export const fetchRemoveFavoriteMovie = async (
     return FavoriteToMovieSchema.parse(data);
   } catch (error) {
     console.error('Delete favorite movie fetch error:', error);
+    throw error;
+  }
+};
+
+export const fetchMovieByTitle = async (
+  title: string,
+  count: number
+): Promise<MovieSearchList> => {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}${endpointsMovie.movie}?title=${title}&count=${count}`
+    );
+    const data = await response.json();
+    return MovieSearchListSchema.parse(data);
+  } catch (error) {
+    console.error('Title movies fetch error:', error);
     throw error;
   }
 };

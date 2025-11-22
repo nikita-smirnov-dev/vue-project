@@ -6,8 +6,12 @@
           <Rating :value="movie.tmdbRating" />
         </div>
         <span class="movie-preview__left-year">{{ movie.releaseYear }}</span>
-        <span class="movie-preview__left-genre">{{ formattedGenres }}</span>
-        <span class="movie-preview__left-runtime">{{ formattedRuntime }}</span>
+        <span class="movie-preview__left-genre">{{
+          getFormattedGenres(movie.genres, genreTranslations).join(' ')
+        }}</span>
+        <span class="movie-preview__left-runtime">{{
+          getCorrectTimeMovie(movie.runtime)
+        }}</span>
       </div>
       <h1 class="movie-preview__left-title section-title">
         {{ movie.title }}
@@ -63,6 +67,9 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore/userStore';
 import { useModalStore } from '@/stores/modalStore/modalStore';
 import { useMovieFavoritesStore } from '@/stores/movieStore/movieFavorites';
+import { getCorrectTimeMovie } from '@/utils/getCorrectTimeMovie';
+import { getFormattedGenres } from '@/utils/getFormattedGenres';
+import { genreTranslations } from '@/assets/data/genresTranslateions';
 
 const props = defineProps<{
   movie: RandomMovie | DetailsMovie;
@@ -100,17 +107,17 @@ const toggleFavorite = () => {
   }
 };
 
-const formattedRuntime = computed(() => {
-  const totalTime = props.movie.runtime;
-  const hours = Math.floor(totalTime / 60);
-  const minutes = totalTime % 60;
+// const formattedRuntime = computed(() => {
+//   const totalTime = props.movie.runtime;
+//   const hours = Math.floor(totalTime / 60);
+//   const minutes = totalTime % 60;
 
-  return hours > 0 ? `${hours} ч ${minutes} м` : `${minutes} м`;
-});
+//   return hours > 0 ? `${hours} ч ${minutes} м` : `${minutes} м`;
+// });
 
-const formattedGenres = computed(() => {
-  return props.movie.genres.join(', ');
-});
+// const formattedGenres = computed(() => {
+//   return props.movie.genres.join(', ');
+// });
 </script>
 
 <style scoped>
