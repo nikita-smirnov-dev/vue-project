@@ -123,3 +123,13 @@ export type MovieSearchByTitle = z.infer<typeof MovieSearchByTitleSchema>;
 export const MovieSearchListSchema = z.array(MovieSearchByTitleSchema);
 
 export type MovieSearchList = z.infer<typeof MovieSearchListSchema>;
+
+// Trailer schema
+
+export const MovieVideoTrailerSchema = BaseMovieSchema.pick({
+  id: true,
+  trailerUrl: true,
+  trailerYouTubeId: true,
+});
+
+export type MovieVideoTrailer = z.infer<typeof MovieVideoTrailerSchema>;

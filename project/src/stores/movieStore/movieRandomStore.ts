@@ -14,7 +14,6 @@ export const useMovieRandomStore = defineStore('random', () => {
 
     try {
       const data = await fetchRandomMovie();
-      console.log('Ответ после Retry:', data);
       movieRandom.value = data;
     } catch (err) {
       console.error(err);

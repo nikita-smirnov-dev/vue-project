@@ -20,7 +20,9 @@
         {{ movie.plot }}
       </p>
       <div v-if="isDetails" class="movie-preview__buttons-details">
-        <Button class="movie-preview__trailer">Трейлер</Button>
+        <Button class="movie-preview__trailer" @click="clickTrailerMovie"
+          >Трейлер</Button
+        >
         <Button class="movie-preview__favorite" @click="toggleFavorite">
           <ReHeart3Fill
             class="movie-preview__favorite-icon"
@@ -29,7 +31,9 @@
         /></Button>
       </div>
       <div v-else class="movie-preview__buttons-container">
-        <Button class="movie-preview__trailer">Трейлер</Button>
+        <Button class="movie-preview__trailer" @click="clickTrailerMovie"
+          >Трейлер</Button
+        >
         <Button
           class="movie-preview__film"
           @click="() => clickAboutMovie(movie.id)"
@@ -70,6 +74,7 @@ import { useMovieFavoritesStore } from '@/stores/movieStore/movieFavorites';
 import { getCorrectTimeMovie } from '@/utils/getCorrectTimeMovie';
 import { getFormattedGenres } from '@/utils/getFormattedGenres';
 import { genreTranslations } from '@/assets/data/genresTranslateions';
+import { useMovieTrailerStore } from '@/stores/movieStore/movieTrailerStore';
 
 const props = defineProps<{
   movie: RandomMovie | DetailsMovie;
@@ -80,7 +85,13 @@ const movieStore = useMovieRandomStore();
 const isUserStore = useUserStore();
 const modalStore = useModalStore();
 const isFavoriteStore = useMovieFavoritesStore();
+const trailerStore = useMovieTrailerStore();
 const router = useRouter();
+
+const clickTrailerMovie = () => {
+  trailerStore.loadTrailerMovie(props.movie.id);
+  modalStore.openModal('trailer');
+};
 
 const clickAboutMovie = (id: number) => {
   router.push(`/about/${id}`);
@@ -96,7 +107,7 @@ const isFavorite = computed(() => {
 
 const toggleFavorite = () => {
   if (!isUserStore.user) {
-    modalStore.openModal();
+    modalStore.openModal('auth');
     return;
   }
 

@@ -9,7 +9,7 @@
         :title="userStore.user.name"
       ></MenuElement>
     </LoginButton>
-    <LoginButton v-else title="Войти" @click="modalStore.openModal()" />
+    <LoginButton v-else title="Войти" @click="modalStore.openModal('auth')" />
   </header>
 </template>
 

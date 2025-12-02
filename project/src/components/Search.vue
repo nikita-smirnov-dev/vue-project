@@ -117,6 +117,7 @@ watch(
   padding: 8px;
   border-radius: 8px;
   background-color: var(--color-dark-gray);
+  z-index: 100;
 }
 
 .search-list {
