@@ -26,8 +26,12 @@
 
       <template v-else>
         <ul class="movies-genres__list list-reset">
-          <li v-for="item of genreByMovieStore.genreMovie" :key="item.id">
-            <router-link :to="`/about/${item.id}`">
+          <li
+            class="movies-genres__item"
+            v-for="item of genreByMovieStore.genreMovie"
+            :key="item.id"
+          >
+            <router-link class="movies-genres__link" :to="`/about/${item.id}`">
               <MovieCard :movie="item" :hide-rating="false" />
             </router-link>
           </li>
@@ -146,5 +150,79 @@ watch(
 
 .movies-genres__btn {
   background-color: var(--color-blue-button);
+}
+
+@media (max-width: 992px) {
+  .movies-genres {
+    margin-bottom: var(--spacing-90);
+  }
+
+  .movies-genres__list.list-reset {
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: var(--spacing-40);
+  }
+}
+
+@media (max-width: 768px) {
+  .movies-genres {
+    margin-bottom: var(--spacing-60);
+  }
+
+  .movies-genres__block {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .movies-genres__icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .movies-genres__list.list-reset {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .movies-genres__button:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .movies-genres {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .movies-genres__title {
+    font-size: var(--font-size-24);
+  }
+
+  .movies-genres__button {
+    margin-right: var(--spacing-10);
+  }
+
+  .movies-genres__icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .movies-genres__list.list-reset {
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: var(--spacing-24);
+    margin-bottom: var(--spacing-40);
+  }
+
+  .movies-genres__list.list-reset :deep(.movie-card__wrapper) {
+    height: 780px;
+  }
+
+  .movies-genres__btn {
+    width: 100%;
+    background-color: var(--color-raiting-top-movie);
+  }
+}
+
+@media (max-width: 375px) {
+  .movies-genres__list.list-reset :deep(.movie-card__wrapper) {
+    height: 502px;
+  }
 }
 </style>

@@ -16,6 +16,13 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#app {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .page::-webkit-scrollbar {
@@ -74,4 +81,30 @@ img {
 .base-text {
   font-size: var(--font-size-24);
   color: var(--color-white);
+}
+
+@media (max-width: 992px) {
+  .container {
+    padding: 0 var(--spacing-60);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-40);
+  }
+
+  .section-title {
+    font-size: var(--font-size-36);
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 0 var(--spacing-20);
+  }
+
+  .section-title {
+    font-size: var(--font-size-24);
+  }
 }

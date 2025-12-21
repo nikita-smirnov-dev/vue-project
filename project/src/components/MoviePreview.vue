@@ -7,7 +7,9 @@
         </div>
         <span class="movie-preview__left-year">{{ movie.releaseYear }}</span>
         <span class="movie-preview__left-genre">{{
-          getFormattedGenres(movie.genres, genreTranslations).join(' ')
+          getFormattedGenres(movie.genres, genreTranslations, genreList).join(
+            ' '
+          )
         }}</span>
         <span class="movie-preview__left-runtime">{{
           getCorrectTimeMovie(movie.runtime)
@@ -16,9 +18,26 @@
       <h1 class="movie-preview__left-title section-title">
         {{ movie.title }}
       </h1>
-      <p class="movie-preview__left-descr base-text">
-        {{ movie.plot }}
-      </p>
+      <div class="movie-preview__description-container">
+        <p class="movie-preview__left-descr base-text">
+          {{ movie.plot }}
+        </p>
+        <div v-if="isLongText">
+          <button
+            class="movie-preview__read-more btn-reset"
+            @click="showFullDescription"
+          >
+            Читать полностью
+          </button>
+          <div v-if="showDescriptionMovie">
+            <Modal @click="closeFullDescription">
+              <div className="movie-preview__descr-container">
+                <p className="movie-preview__descr">{{ movie.plot }}</p>
+              </div>
+            </Modal>
+          </div>
+        </div>
+      </div>
       <div v-if="isDetails" class="movie-preview__buttons-details">
         <Button class="movie-preview__trailer" @click="clickTrailerMovie"
           >Трейлер</Button
@@ -34,21 +53,23 @@
         <Button class="movie-preview__trailer" @click="clickTrailerMovie"
           >Трейлер</Button
         >
-        <Button
-          class="movie-preview__film"
-          @click="() => clickAboutMovie(movie.id)"
-          >О фильме</Button
-        >
-        <Button class="movie-preview__favorite" @click="toggleFavorite">
-          <ReHeart3Fill
-            class="movie-preview__favorite-icon"
-            v-if="isFavorite"
-          />
-          <ReHeart3Line v-else />
-        </Button>
-        <Button class="movie-preview__update" @click="onNewRandomMovieClick"
-          ><ReLoopRightLine
-        /></Button>
+        <div class="movie-preview__buttons-actions">
+          <Button
+            class="movie-preview__film"
+            @click="() => clickAboutMovie(movie.id)"
+            >О фильме</Button
+          >
+          <Button class="movie-preview__favorite" @click="toggleFavorite">
+            <ReHeart3Fill
+              class="movie-preview__favorite-icon"
+              v-if="isFavorite"
+            />
+            <ReHeart3Line v-else />
+          </Button>
+          <Button class="movie-preview__update" @click="onNewRandomMovieClick"
+            ><ReLoopRightLine
+          /></Button>
+        </div>
       </div>
     </div>
     <div class="movie-preview__right">
@@ -58,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { ReHeart3Line, ReHeart3Fill } from '@kalimahapps/vue-icons';
 import { ReLoopRightLine } from '@kalimahapps/vue-icons';
 
@@ -66,7 +87,7 @@ import type { DetailsMovie, RandomMovie } from '@/types/movieTypes';
 import { useMovieRandomStore } from '@/stores/movieStore/movieRandomStore';
 import Button from '@/UI/Button.vue';
 import Rating from '@/UI/Rating.vue';
-import defaultImage from '../assets/images/default-img.jpg';
+// import defaultImage from '../assets/images/default-img.jpg';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore/userStore';
 import { useModalStore } from '@/stores/modalStore/modalStore';
@@ -75,22 +96,46 @@ import { getCorrectTimeMovie } from '@/utils/getCorrectTimeMovie';
 import { getFormattedGenres } from '@/utils/getFormattedGenres';
 import { genreTranslations } from '@/assets/data/genresTranslateions';
 import { useMovieTrailerStore } from '@/stores/movieStore/movieTrailerStore';
+import Modal from '@/components/Modal.vue';
 
 const props = defineProps<{
   movie: RandomMovie | DetailsMovie;
   isDetails?: boolean;
 }>();
 
+const defaultImage = new URL(
+  '../assets/images/default-img.jpg',
+  import.meta.url
+).href;
+
+const showDescriptionMovie = ref(false);
 const movieStore = useMovieRandomStore();
 const isUserStore = useUserStore();
 const modalStore = useModalStore();
 const isFavoriteStore = useMovieFavoritesStore();
 const trailerStore = useMovieTrailerStore();
 const router = useRouter();
+const isLongText = computed(() => {
+  return props.movie.plot && props.movie.plot.length > 150;
+});
+
+const genreList = computed(() => {
+  return window.innerWidth <= 375 ? 1 : undefined;
+});
 
 const clickTrailerMovie = () => {
   trailerStore.loadTrailerMovie(props.movie.id);
   modalStore.openModal('trailer');
+};
+
+const showFullDescription = () => {
+  showDescriptionMovie.value = true;
+  modalStore.openModal;
+};
+
+const closeFullDescription = () => {
+  showDescriptionMovie.value = false;
+  modalStore.closeModal;
 };
 
 const clickAboutMovie = (id: number) => {
@@ -117,18 +162,6 @@ const toggleFavorite = () => {
     isFavoriteStore.addFavoriteMovie(props.movie);
   }
 };
-
-// const formattedRuntime = computed(() => {
-//   const totalTime = props.movie.runtime;
-//   const hours = Math.floor(totalTime / 60);
-//   const minutes = totalTime % 60;
-
-//   return hours > 0 ? `${hours} ч ${minutes} м` : `${minutes} м`;
-// });
-
-// const formattedGenres = computed(() => {
-//   return props.movie.genres.join(', ');
-// });
 </script>
 
 <style scoped>
@@ -169,11 +202,43 @@ const toggleFavorite = () => {
   margin-bottom: var(--spacing-24);
 }
 
+.movie-preview__description-container {
+  display: inline-block;
+  margin-bottom: var(--spacing-60);
+}
+
 .movie-preview__left-descr {
   margin: 0;
   font-size: var(--font-size-24);
   color: var(--color-gradient-gray);
-  margin-bottom: var(--spacing-60);
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: var(--spacing-20);
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.movie-preview__read-more {
+  font-size: var(--font-size-18);
+  color: var(--color-white);
+}
+
+.movie-preview__descr-container {
+  padding: 20px;
+  border-radius: 24px;
+  background-color: var(--color-white);
+}
+
+.movie-preview__descr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  margin: 0;
+  font-size: var(--font-size-18);
+  line-height: 1.4;
 }
 
 .movie-preview__buttons-container {
@@ -183,6 +248,12 @@ const toggleFavorite = () => {
 }
 .movie-preview__trailer {
   background-color: var(--color-blue-button);
+}
+
+.movie-preview__buttons-actions {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-16);
 }
 
 .movie-preview__film {
@@ -216,5 +287,169 @@ const toggleFavorite = () => {
   display: flex;
   align-items: center;
   gap: var(--spacing-16);
+}
+
+@media (max-width: 992px) {
+  .movie-preview__left {
+    max-width: 450px;
+    padding-top: 30px;
+  }
+
+  .movie-preview__buttons-container {
+    flex-wrap: wrap;
+  }
+
+  /* .movie-preview__buttons--details {
+    flex-wrap: nowrap;
+  } */
+
+  .movie-preview__trailer-container {
+    width: 100%;
+  }
+
+  .movie-preview__trailer {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+@media (max-width: 768px) {
+  .movie-preview {
+    flex-direction: column-reverse;
+    margin-bottom: var(--spacing-80);
+  }
+
+  .movie-preview__content-wrapper {
+    min-height: 300px;
+  }
+
+  .movie-preview__left-title {
+    font-size: var(--font-size-36);
+  }
+
+  .movie-preview__right {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .movie-preview__right img {
+    width: 100%;
+  }
+
+  .movie-preview__left {
+    max-width: 100%;
+    padding-top: 0;
+    margin-right: 0;
+  }
+
+  .movie-preview__description-container {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .movie-preview__left-descr {
+    font-size: var(--font-size-20);
+  }
+
+  .movie-preview__buttons-container {
+    flex-wrap: nowrap;
+  }
+
+  .movie-preview__trailer-container {
+    width: 34%;
+  }
+}
+
+@media (max-width: 576px) {
+  .movie-preview {
+    margin-bottom: var(--spacing-60);
+  }
+
+  .movie-preview__right {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .movie-preview__content-wrapper {
+    min-height: 250px;
+  }
+
+  .movie-preview__left-year,
+  .movie-preview__left-genre,
+  .movie-preview__left-runtime {
+    font-size: var(--font-size-14);
+  }
+
+  .movie-preview__left-title {
+    margin-bottom: var(--spacing-12);
+    font-size: var(--font-size-24);
+  }
+
+  .movie-preview__left-descr {
+    font-size: var(--font-size-18);
+  }
+
+  .movie-preview__descr-container {
+    padding: var(--spacing-40) var(--spacing-20);
+  }
+
+  .movie-preview__descr {
+    width: 300px;
+  }
+
+  .movie-preview__film {
+    padding: var(--spacing-16) var(--spacing-40);
+  }
+
+  .movie-preview__favorite,
+  .movie-preview__update {
+    padding: var(--spacing-16) var(--spacing-24);
+  }
+
+  .movie-preview__buttons--details {
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* .movie-preview__action-buttons--details {
+    flex: 0;
+  } */
+}
+
+@media (max-width: 376px) {
+  .movie-preview {
+    margin-bottom: var(--spacing-32);
+  }
+
+  .movie-preview__right img {
+    width: 338px;
+    height: 234px;
+  }
+
+  .movie-preview__buttons-container {
+    flex-direction: column;
+  }
+
+  .movie-preview__description-container {
+    margin-bottom: var(--spacing-32);
+  }
+
+  .movie-preview__left-descr {
+    margin-bottom: var(--spacing-10);
+  }
+
+  .movie-preview__buttons-container {
+    margin-bottom: var(--spacing-24);
+  }
+
+  .movie-preview__trailer-container {
+    width: 100%;
+  }
+
+  .movie-preview__buttons-actions {
+    display: flex;
+    gap: var(--spacing-16);
+  }
+
+  .movie-preview__buttons--details {
+    display: flex;
+    flex-direction: row;
+  }
 }
 </style>

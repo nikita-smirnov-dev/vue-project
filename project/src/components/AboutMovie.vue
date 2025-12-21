@@ -11,10 +11,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import MovieInfo from './MovieInfo.vue';
 import type { DetailsMovie } from '@/types/movieTypes';
 import { languageDetails } from '../assets/data/languageMovieDetails';
-import { computed } from 'vue';
 
 type AboutMovieProps = Pick<
   DetailsMovie,
@@ -47,5 +48,15 @@ const formatMoney = (value: string | number | null | undefined): string => {
 .about-movie__title {
   margin: 0;
   margin-bottom: var(--spacing-64);
+}
+
+@media (max-width: 768px) {
+  .about-movie {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .about-movie__title {
+    margin-bottom: var(--spacing-40);
+  }
 }
 </style>

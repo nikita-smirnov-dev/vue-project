@@ -1,5 +1,8 @@
 <template>
-  <div class="modal-overlay">
+  <div
+    class="modal-overlay"
+    :class="{ 'modal-overlay--trailer': modalType === 'trailer' }"
+  >
     <div class="modal-content">
       <slot />
       <button class="modal-close btn-reset">
@@ -11,6 +14,10 @@
 
 <script setup lang="ts">
 import { MdClose } from '@kalimahapps/vue-icons';
+
+const props = defineProps<{
+  modalType?: string | null;
+}>();
 </script>
 
 <style scoped>
@@ -49,5 +56,27 @@ import { MdClose } from '@kalimahapps/vue-icons';
   width: 30px;
   height: 30px;
   color: var(--color-black);
+}
+
+@media (max-width: 812px) and (orientation: landscape) {
+  .modal-close.btn-reset {
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-overlay--trailer {
+    background-color: var(--color-black);
+  }
+
+  .modal-close.btn-reset {
+    width: 32px;
+    height: 32px;
+    top: 7px;
+    right: 7px;
+    z-index: 1000;
+  }
 }
 </style>

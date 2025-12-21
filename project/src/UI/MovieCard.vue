@@ -2,17 +2,19 @@
   <div class="movie-card">
     <div v-if="hideRating" class="movie-card__rating">{{ index }}</div>
     <div class="movie-card__wrapper">
-      <div class="movie-card__img">
-        <img :src="movie.posterUrl || defaultImg" :alt="movie.title" />
-      </div>
-      <button
-        v-if="isFavorite"
-        class="movie-card__btn-close btn-reset"
-        @click="removeToFavorite()"
-      >
-        <MdClose class="movie-card__close-icon" />
-      </button>
+      <img
+        class="movie-card__img"
+        :src="movie.posterUrl || defaultImg"
+        :alt="movie.title"
+      />
     </div>
+    <button
+      v-if="isFavorite"
+      class="movie-card__btn-close btn-reset"
+      @click="removeToFavorite()"
+    >
+      <MdClose class="movie-card__close-icon" />
+    </button>
   </div>
 </template>
 
@@ -74,9 +76,9 @@ const removeToFavorite = () => {
   z-index: 10;
 }
 
-.movie-card__img img {
+.movie-card__img {
   width: 100%;
-  height: 336px;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -103,7 +105,7 @@ const removeToFavorite = () => {
   height: 25px;
 }
 
-.favorites-movies__item:hover .movie-card__btn-close {
+.movie-card:hover .movie-card__btn-close {
   opacity: 1;
   visibility: visible;
 }

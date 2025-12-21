@@ -3,22 +3,22 @@
     <ul class="social-icons__list list-reset">
       <li class="social-icons__item">
         <a class="social-icons__link" href="#" aria-label="ВКонтакте">
-          <BxVk className="social-icons__svg" />
+          <BxVk class="social-icons__svg" />
         </a>
       </li>
       <li class="social-icons__item">
         <a class="social-icons__link" href="#" aria-label="YouTube">
-          <BxYoutube className="social-icons__svg" />
+          <BxYoutube class="social-icons__svg" />
         </a>
       </li>
       <li class="social-icons__item">
         <a class="social-icons__link" href="#" aria-label="Одноклассники">
-          <CoBrandOdnoklassniki className="social-icons__svg" />
+          <CoBrandOdnoklassniki class="social-icons__svg" />
         </a>
       </li>
       <li class="social-icons__item">
         <a class="social-icons__link" href="#" aria-label="Телеграмм">
-          <ReTelegram2Fill className="social-icons__svg" />
+          <ReTelegram2Fill class="social-icons__svg" />
         </a>
       </li>
     </ul>
@@ -48,5 +48,17 @@ import { ReTelegram2Fill } from '@kalimahapps/vue-icons';
   border: 1px solid var(--color-social-footer);
   border-radius: 8px;
   color: var(--color-social-footer);
+}
+
+@media (max-width: 576px) {
+  .social-icons__link {
+    width: 24px;
+    height: 24px;
+  }
+
+  .social-icons__svg {
+    width: 13px;
+    height: 13px;
+  }
 }
 </style>

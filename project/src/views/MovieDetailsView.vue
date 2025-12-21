@@ -5,7 +5,9 @@
   <template v-else-if="movieDetailsStore.error">
     <ErrorMessage
       :message="movieDetailsStore.error"
-      :onRetry="() => movieDetailsStore.loadMovieDetails(movieId)"
+      :onRetry="
+        () => movieDetailsStore.loadMovieDetails(Number(route.params.id))
+      "
     />
   </template>
   <template v-else>
@@ -27,7 +29,7 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 
 import AboutMovie from '@/components/AboutMovie.vue';
 import MoviePreview from '@/components/MoviePreview.vue';
@@ -37,15 +39,20 @@ import ErrorMessage from '@/UI/ErrorMessage.vue';
 
 const route = useRoute();
 const movieDetailsStore = useMovieDetailsStore();
-const movieId = Number(route.params.id || 0);
 
 const isInitialLoading = computed(() => {
   return movieDetailsStore.loader && !movieDetailsStore.detailsMovie;
 });
 
-onMounted(() => {
-  movieDetailsStore.loadMovieDetails(movieId);
-});
+watch(
+  () => route.params.id,
+  (newId) => {
+    if (newId) {
+      movieDetailsStore.loadMovieDetails(Number(newId));
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped></style>

@@ -4,7 +4,11 @@
     <main>
       <router-view />
     </main>
-    <Modal v-if="modalStore.isOpen" @close="modalStore.closeModal()">
+    <Modal
+      v-if="modalStore.isOpen"
+      @close="modalStore.closeModal()"
+      :modalType="modalStore.type"
+    >
       <component :is="ModalComponent" />
     </Modal>
   </div>

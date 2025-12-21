@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import type { MovieSearchByTitle } from '@/types/movieTypes';
-import defaultImage from '../assets/images/default-img.jpg';
 import Rating from '@/UI/Rating.vue';
 import { getFormattedGenres } from '@/utils/getFormattedGenres';
 
@@ -40,6 +39,11 @@ import { genreTranslations } from '@/assets/data/genresTranslateions';
 const props = defineProps<{
   movie: MovieSearchByTitle;
 }>();
+
+const defaultImage = new URL(
+  '../assets/images/default-img.jpg',
+  import.meta.url
+).href;
 </script>
 
 <style scoped>
@@ -92,5 +96,28 @@ const props = defineProps<{
   font-weight: 700;
   font-size: var(--font-size-18);
   color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+  .search-content__img {
+    width: 80px;
+    height: 115px;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-content__img {
+    width: 157px;
+    height: 215px;
+  }
+
+  .search-content__right-info {
+    flex-wrap: wrap;
+  }
 }
 </style>

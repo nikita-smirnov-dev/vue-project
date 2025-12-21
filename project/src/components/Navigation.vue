@@ -25,4 +25,20 @@ import MenuElement from '@/UI/MenuElement.vue';
   align-items: center;
   gap: var(--spacing-40);
 }
+
+@media (max-width: 992px) {
+  .nav {
+    margin-right: var(--spacing-30);
+  }
+
+  .nav-list {
+    gap: var(--spacing-30);
+  }
+}
+
+@media (max-width: 576px) {
+  .nav {
+    display: none;
+  }
+}
 </style>

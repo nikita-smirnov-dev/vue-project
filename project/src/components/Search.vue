@@ -7,9 +7,18 @@
       placeholder="Поиск"
       v-model="searchStore.title"
     />
-    <div v-if="searchStore.title.length">
+    <div v-if="searchStore.title.length && !isTablet">
       <button class="search-close btn-reset" type="button" @click="closeSearch">
-        <MdClose class="search-close__icon" />
+        <MdClose class="search-close__icon" aria-label="Закрыть поиск" />
+      </button>
+    </div>
+    <div v-else-if="isTablet">
+      <button class="search-close btn-reset" type="button">
+        <MdClose
+          class="search-close__icon"
+          aria-label="Закрыть поиск"
+          @click="searchCloseMobile"
+        />
       </button>
     </div>
   </form>
@@ -20,6 +29,29 @@
 
     <ul v-else class="search-list list-reset">
       <li v-if="isEmptyResult" class="search-status">Ничего не найдено</li>
+
+      <div v-else-if="isMobile">
+        <Swiper
+          :slides-per-view="1.3"
+          :spaceBetween="16"
+          :initialSlide="0"
+          :grabCursor="true"
+          :cssMode="false"
+          class="search__swiper"
+        >
+          <SwiperSlide v-for="item of searchStore.searchMovie" :key="item.id">
+            <li class="search-item">
+              <router-link
+                class="search-item__link"
+                :to="`/about/${item.id}`"
+                @click="closeSearch"
+              >
+                <SearchMovieItem :movie="item" />
+              </router-link>
+            </li>
+          </SwiperSlide>
+        </Swiper>
+      </div>
 
       <li
         v-else
@@ -40,17 +72,31 @@
 </template>
 
 <script setup lang="ts">
-import { MdClose } from '@kalimahapps/vue-icons';
 import { computed, watch } from 'vue';
-
+import { useRoute } from 'vue-router';
+import { MdClose } from '@kalimahapps/vue-icons';
 import { BxSearch } from '@kalimahapps/vue-icons';
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+
 import { useMovieSearchStore } from '@/stores/movieStore/movieSearchStore';
 import SearchMovieItem from './SearchMovieItem.vue';
 import DataLoader from '@/UI/DataLoader.vue';
 import ErrorMessage from '@/UI/ErrorMessage.vue';
+import { BREAKPOINTS, useMediaQuery } from '@/composables/useMediaQuery';
+
+const props = defineProps<{
+  searchCloseMobile?: VoidFunction;
+}>();
 
 let timeout: ReturnType<typeof setTimeout>;
+
 const searchStore = useMovieSearchStore();
+const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+const isTablet = useMediaQuery(BREAKPOINTS.TABLET);
+
+const route = useRoute();
 
 const isEmptyResult = computed(
   () =>
@@ -63,12 +109,21 @@ const isEmptyResult = computed(
 const closeSearch = () => {
   searchStore.title = '';
   searchStore.searchMovie = [];
+  if (props.searchCloseMobile) {
+    props.searchCloseMobile();
+  }
 };
+
+watch(() => route.fullPath, closeSearch);
 
 watch(
   () => searchStore.title,
   (value) => {
     clearTimeout(timeout);
+    if (!value) {
+      searchStore.searchMovie = [];
+      return;
+    }
     timeout = setTimeout(() => {
       searchStore.loadMovieSearch(value);
     }, 300);
@@ -144,5 +199,76 @@ watch(
   width: 20px;
   height: 20px;
   color: var(--color-gradient-gray);
+}
+
+@media (max-width: 1200px) {
+  .search-block {
+    width: 41%;
+  }
+}
+
+@media (max-width: 992px) {
+  .search {
+    width: 60%;
+    padding: var(--spacing-10) var(--spacing-20);
+    margin-right: var(--spacing-50);
+  }
+
+  .search-block {
+    width: 55%;
+    left: 46%;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-search-overlay .search {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-right: 0;
+  }
+
+  .search-close {
+    width: 18px;
+    height: 18px;
+    fill: var(--color-white);
+    cursor: pointer;
+  }
+
+  .search-item:hover {
+    box-shadow: none;
+  }
+
+  .mobile-search-overlay .search-block {
+    position: relative;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .search {
+    padding: var(--spacing-16) var(--spacing-16);
+  }
+
+  .search-input::placeholder {
+    font-size: var(--font-size-18);
+  }
+
+  .search-input {
+    color: var(--color-white);
+  }
+
+  .search:focus-within .search-svg {
+    color: var(--color-white);
+  }
+
+  .mobile-search-overlay .search-block {
+    top: 5px;
+  }
 }
 </style>

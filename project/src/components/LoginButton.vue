@@ -20,4 +20,10 @@ const props = defineProps<{
 .btn-login:hover {
   color: var(--color-active-accent);
 }
+
+@media (max-width: 992px) {
+  .btn-login {
+    font-size: var(--font-size-20);
+  }
+}
 </style>

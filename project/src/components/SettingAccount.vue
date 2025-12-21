@@ -113,4 +113,23 @@ const onClickLogout = async () => {
 .setting-account__btn {
   background-color: var(--color-blue-button);
 }
+
+@media (max-width: 576px) {
+  .setting-account {
+    margin-bottom: var(--spacing-40);
+  }
+
+  .setting-account__text {
+    font-size: var(--font-size-14);
+    color: var(--color-gradient-gray);
+  }
+
+  .setting-account__fio {
+    font-size: var(--font-size-18);
+  }
+
+  .setting-account__btn {
+    width: 100%;
+  }
+}
 </style>

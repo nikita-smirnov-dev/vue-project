@@ -29,4 +29,11 @@ const formSwitch = (newForm: 'login' | 'register' | 'success') => {
   background-color: var(--color-white);
   border-radius: 24px;
 }
+
+@media (max-width: 768px) {
+  .auth {
+    padding: var(--spacing-64) var(--spacing-20) var(--spacing-32)
+      var(--spacing-20);
+  }
+}
 </style>

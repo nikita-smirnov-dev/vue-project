@@ -32,4 +32,29 @@ const trailerStore = useMovieTrailerStore();
   width: 960px;
   height: 540px;
 }
+
+@media (max-width: 812px) and (orientation: landscape) {
+  .trailer-content {
+    width: 660px;
+    height: 375px;
+  }
+}
+
+@media (max-width: 576px) and (orientation: portrait) {
+  .trailer-content {
+    width: 576px;
+    height: 212px;
+  }
+
+  :deep(.modal-overlay) {
+    background-color: var(--color-black);
+  }
+}
+
+@media (max-width: 375px) and (orientation: portrait) {
+  .trailer-content {
+    width: 375px;
+    height: 212px;
+  }
+}
 </style>

@@ -95,7 +95,7 @@ const onSubmit = async () => {
 
     if (store.user) {
       modalStore.closeModal();
-      router.push('/');
+      router.push('/account/favorites');
     }
   } catch (error: unknown) {
     if (typeof error === 'object' && error !== null) {

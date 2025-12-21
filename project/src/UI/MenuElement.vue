@@ -2,6 +2,7 @@
   <router-link
     class="menu-item base-text"
     :to="path"
+    :title="title"
     active-class="menu-item--active"
   >
     <slot>{{ title }}</slot>
@@ -30,5 +31,11 @@ const props = defineProps<{
 
 .menu-item--active {
   border-bottom: 1px solid var(--color-menu-line);
+}
+
+@media (max-width: 992px) {
+  .menu-item {
+    font-size: var(--font-size-20);
+  }
 }
 </style>
