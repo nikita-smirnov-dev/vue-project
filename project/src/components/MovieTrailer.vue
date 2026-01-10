@@ -3,8 +3,8 @@
     <div v-if="trailerStore.loader">
       <PageLoader />
     </div>
-    <div v-else-if="trailerStore.error">
-      <ErrorMessage :message="trailerStore.error" />
+    <div v-else-if="trailerStore.error || scriptError">
+      <ErrorMessage message="Трейлер недоступен в вашем регионе" />
     </div>
     <YouTube
       v-else
@@ -21,10 +21,31 @@
 import { useMovieTrailerStore } from '@/stores/movieStore/movieTrailerStore';
 import ErrorMessage from '@/UI/ErrorMessage.vue';
 import PageLoader from '@/UI/PageLoader.vue';
+import { onMounted, ref } from 'vue';
 
 import YouTube from 'vue3-youtube';
 
 const trailerStore = useMovieTrailerStore();
+const youtubeReady = ref(false);
+const scriptError = ref(false);
+
+onMounted(() => {
+  let attempts = 0;
+  const maxAttempts = 20;
+  const interval = 100;
+
+  const checkYT = () => {
+    if (typeof YT !== 'undefined' && YT && YT.Player) {
+      youtubeReady.value = true;
+    } else if (++attempts >= maxAttempts) {
+      scriptError.value = true;
+    } else {
+      setTimeout(checkYT, interval);
+    }
+  };
+
+  checkYT();
+});
 </script>
 
 <style scoped>

@@ -60,6 +60,9 @@ export const useUserStore = defineStore('user', () => {
     await logout();
     user.value = null;
 
+    const favoriteStore = useMovieFavoritesStore();
+    favoriteStore.reset();
+
     localStorage.removeItem('user');
   };
 

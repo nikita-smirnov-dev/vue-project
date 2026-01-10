@@ -45,6 +45,7 @@
         <Button
           class="movies-genres__btn"
           @click="genreByMovieStore.loadMoreMovies()"
+          variantAction="primary"
           >Показать ещё</Button
         >
       </div>

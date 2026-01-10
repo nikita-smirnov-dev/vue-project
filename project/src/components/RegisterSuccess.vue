@@ -3,7 +3,12 @@
     <Logo class="modal-logo" :isLink="false" />
     <h3 class="modal-title">Регистрация завершена</h3>
     <p class="modal-text">Используйте вашу электронную почту для входа</p>
-    <Button class="modal-form__btn" @click="onSuccessClick">Войти</Button>
+    <Button
+      class="modal-form__btn"
+      @click="onSuccessClick"
+      variantAction="primary"
+      >Войти</Button
+    >
   </div>
 </template>
 

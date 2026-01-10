@@ -13,7 +13,6 @@ export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
   const error = ref<string | null>(null);
 
   const loadFavoritesMovie = async () => {
-    if (movieFavorites.value) return;
     loader.value = true;
     error.value = null;
 
@@ -24,6 +23,7 @@ export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
       console.error(err);
       error.value =
         'Не удалось загрузить список избранных фильмов. Попробуйте позже.';
+      movieFavorites.value = [];
     } finally {
       loader.value = false;
     }
@@ -83,6 +83,12 @@ export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
     }
   };
 
+  const reset = () => {
+    movieFavorites.value = null;
+    error.value = null;
+    loader.value = false;
+  };
+
   return {
     movieFavorites,
     loadFavoritesMovie,
@@ -91,6 +97,7 @@ export const useMovieFavoritesStore = defineStore('movieFavorites', () => {
     removeFavoriteMovie,
     loader,
     error,
+    reset,
   };
 });
 

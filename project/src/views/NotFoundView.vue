@@ -48,4 +48,12 @@
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   background-color: var(--color-blue-button);
 }
+
+.not-found__btn:hover {
+  background-color: var(--color-hover-primary);
+}
+
+.not-found__btn:active {
+  background-color: var(--color-active-primary);
+}
 </style>

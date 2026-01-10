@@ -1,7 +1,9 @@
 <template>
   <div class="error-wrapper">
     <span class="error-message base-text">{{ message }}</span>
-    <Button class="error-btn" @click="onRetry?.()"> Повторить запрос </Button>
+    <Button class="error-btn" @click="onRetry?.()" variant-action="primary">
+      Повторить запрос
+    </Button>
   </div>
 </template>
 

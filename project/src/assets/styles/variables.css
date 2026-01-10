@@ -1,6 +1,10 @@
 :root {
   --color-black: #000000;
   --color-white: #ffffff;
+  --color-hover-primary: #3d7bc6;
+  --color-hover-secondary: #555555;
+  --color-active-primary: #1e4080;
+  --color-active-secondary: #222222;
   --color-blue-button: #67a5eb;
   --color-menu-line: #dc5dfc;
   --color-active-accent: #b4a9ff;

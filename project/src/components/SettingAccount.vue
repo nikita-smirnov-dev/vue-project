@@ -22,7 +22,10 @@
         </div>
       </div>
     </div>
-    <Button class="setting-account__btn" @click="onClickLogout"
+    <Button
+      class="setting-account__btn"
+      variantAction="primary"
+      @click="onClickLogout"
       >Выйти из аккаунта</Button
     >
   </div>

@@ -98,7 +98,9 @@
           {{ formError }}
         </p>
       </div>
-      <Button class="modal-form__btn" type="submit">Создать аккаунт</Button>
+      <Button class="modal-form__btn" type="submit" variantAction="primary"
+        >Создать аккаунт</Button
+      >
     </form>
     <Button class="modal-btn" @click="onLoginClick">У меня есть пароль</Button>
   </div>

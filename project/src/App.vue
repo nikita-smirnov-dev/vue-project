@@ -4,13 +4,15 @@
     <main>
       <router-view />
     </main>
-    <Modal
-      v-if="modalStore.isOpen"
-      @close="modalStore.closeModal()"
-      :modalType="modalStore.type"
-    >
-      <component :is="ModalComponent" />
-    </Modal>
+    <Transition name="modal">
+      <Modal
+        v-if="modalStore.isOpen"
+        @close="modalStore.closeModal()"
+        :modalType="modalStore.type"
+      >
+        <component :is="ModalComponent" />
+      </Modal>
+    </Transition>
   </div>
   <Footer />
 </template>
@@ -33,4 +35,14 @@ const ModalComponent = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+</style>

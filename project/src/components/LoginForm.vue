@@ -45,7 +45,7 @@
           {{ formError }}
         </p>
       </div>
-      <Button class="modal-form__btn">Войти</Button>
+      <Button class="modal-form__btn" variantAction="primary">Войти</Button>
     </form>
     <Button class="modal-btn" @click="onRegisterClick">Регистрация</Button>
   </div>

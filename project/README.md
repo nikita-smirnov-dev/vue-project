@@ -1,33 +1,58 @@
-# .
+# Movie App
 
-This template should help get you started developing with Vue 3 in Vite.
+Веб-приложение для просмотра информации о фильмах с возможностью добавления в избранное, просмотра трейлеров и детальной информации.
 
-## Recommended IDE Setup
+## Функциональность
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Просмотр каталога фильмов
+- Поиск фильмов по названию
+- Добавление фильмов в избранное
+- Просмотр трейлеров
+- Адаптивный дизайн
+- Рейтинг фильма
+- Детальная информация о фильмах
 
-## Type Support for `.vue` Imports in TS
+## Технологии
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- **Frontend:** Vue 3, TypeScript
+- **Стилизация:** CSS
+- **Управление состоянием:** Pinia
+- **Роутинг:** Vue Router
+- **API:** The Movie Database (TMDB)
+- **Иконки:** Vue Icons
+- **Сборка:** Vite
 
-## Customize configuration
+## Установка и запуск
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Предварительные требования
 
-## Project Setup
+- Node.js (версия 16 или выше)
+- npm или yarn
 
-```sh
+### Установка зависимостей
+
+```bash
 npm install
+# или
+yarn install
 ```
 
-### Compile and Hot-Reload for Development
+### Запуск в режиме разработки
 
-```sh
+```bash
 npm run dev
+# или
+yarn start
 ```
 
-### Type-Check, Compile and Minify for Production
+Приложение откроется по адресу [http://localhost:5173](http://localhost:5173)
 
-```sh
+### Сборка для продакшена
+
+```bash
 npm run build
+# или
+yarn build
 ```
+
+Приложение использует [The Movie Database API](https://cinemaguide.skillbox.cc/) для получения данных о фильмах.

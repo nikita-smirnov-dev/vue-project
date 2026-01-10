@@ -1,48 +1,57 @@
 <template>
   <div class="movie-preview">
     <div class="movie-preview__left">
-      <div class="movie-preview__left-info">
-        <div class="movie-preview__left-rating">
-          <Rating :value="movie.tmdbRating" />
+      <div class="movie-preview__content-wrapper">
+        <div class="movie-preview__left-info">
+          <div class="movie-preview__left-rating">
+            <Rating :value="movie.tmdbRating" />
+          </div>
+          <span class="movie-preview__left-year">{{ movie.releaseYear }}</span>
+          <span class="movie-preview__left-genre">{{
+            getFormattedGenres(movie.genres, genreTranslations, genreList).join(
+              ' '
+            )
+          }}</span>
+          <span class="movie-preview__left-runtime">{{
+            getCorrectTimeMovie(movie.runtime)
+          }}</span>
         </div>
-        <span class="movie-preview__left-year">{{ movie.releaseYear }}</span>
-        <span class="movie-preview__left-genre">{{
-          getFormattedGenres(movie.genres, genreTranslations, genreList).join(
-            ' '
-          )
-        }}</span>
-        <span class="movie-preview__left-runtime">{{
-          getCorrectTimeMovie(movie.runtime)
-        }}</span>
-      </div>
-      <h1 class="movie-preview__left-title section-title">
-        {{ movie.title }}
-      </h1>
-      <div class="movie-preview__description-container">
-        <p class="movie-preview__left-descr base-text">
-          {{ movie.plot }}
-        </p>
-        <div v-if="isLongText">
-          <button
-            class="movie-preview__read-more btn-reset"
-            @click="showFullDescription"
-          >
-            Читать полностью
-          </button>
-          <div v-if="showDescriptionMovie">
-            <Modal @click="closeFullDescription">
-              <div className="movie-preview__descr-container">
-                <p className="movie-preview__descr">{{ movie.plot }}</p>
-              </div>
-            </Modal>
+        <h1 class="movie-preview__left-title section-title">
+          {{ movie.title }}
+        </h1>
+        <div class="movie-preview__description-container">
+          <p class="movie-preview__left-descr base-text">
+            {{ movie.plot }}
+          </p>
+          <div v-if="isLongText">
+            <button
+              class="movie-preview__read-more btn-reset"
+              @click="showFullDescription"
+            >
+              Читать полностью
+            </button>
+            <div v-if="showDescriptionMovie">
+              <Modal @click="closeFullDescription">
+                <div className="movie-preview__descr-container">
+                  <p className="movie-preview__descr">{{ movie.plot }}</p>
+                </div>
+              </Modal>
+            </div>
           </div>
         </div>
       </div>
       <div v-if="isDetails" class="movie-preview__buttons-details">
-        <Button class="movie-preview__trailer" @click="clickTrailerMovie"
+        <Button
+          class="movie-preview__trailer"
+          @click="clickTrailerMovie"
+          variantAction="primary"
           >Трейлер</Button
         >
-        <Button class="movie-preview__favorite" @click="toggleFavorite">
+        <Button
+          class="movie-preview__favorite"
+          @click="toggleFavorite"
+          variantAction="secondary"
+        >
           <ReHeart3Fill
             class="movie-preview__favorite-icon"
             v-if="isFavorite" />
@@ -50,23 +59,34 @@
         /></Button>
       </div>
       <div v-else class="movie-preview__buttons-container">
-        <Button class="movie-preview__trailer" @click="clickTrailerMovie"
+        <Button
+          class="movie-preview__trailer"
+          @click="clickTrailerMovie"
+          variantAction="primary"
           >Трейлер</Button
         >
         <div class="movie-preview__buttons-actions">
           <Button
             class="movie-preview__film"
             @click="() => clickAboutMovie(movie.id)"
+            variantAction="secondary"
             >О фильме</Button
           >
-          <Button class="movie-preview__favorite" @click="toggleFavorite">
+          <Button
+            class="movie-preview__favorite"
+            @click="toggleFavorite"
+            variantAction="secondary"
+          >
             <ReHeart3Fill
               class="movie-preview__favorite-icon"
               v-if="isFavorite"
             />
             <ReHeart3Line v-else />
           </Button>
-          <Button class="movie-preview__update" @click="onNewRandomMovieClick"
+          <Button
+            class="movie-preview__update"
+            @click="onNewRandomMovieClick"
+            variantAction="secondary"
             ><ReLoopRightLine
           /></Button>
         </div>
@@ -87,7 +107,6 @@ import type { DetailsMovie, RandomMovie } from '@/types/movieTypes';
 import { useMovieRandomStore } from '@/stores/movieStore/movieRandomStore';
 import Button from '@/UI/Button.vue';
 import Rating from '@/UI/Rating.vue';
-// import defaultImage from '../assets/images/default-img.jpg';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/userStore/userStore';
 import { useModalStore } from '@/stores/modalStore/modalStore';
@@ -176,6 +195,12 @@ const toggleFavorite = () => {
   margin-right: var(--spacing-20);
 }
 
+.movie-preview__content-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
 .movie-preview__left-info {
   display: flex;
   align-items: center;
@@ -221,8 +246,25 @@ const toggleFavorite = () => {
 }
 
 .movie-preview__read-more {
+  position: relative;
   font-size: var(--font-size-18);
   color: var(--color-white);
+  transition: color 0.3s ease-in-out;
+}
+
+.movie-preview__read-more::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-menu-line);
+  transition: width 0.2s ease;
+}
+
+.movie-preview__read-more:hover::after {
+  width: 100%;
 }
 
 .movie-preview__descr-container {
@@ -298,10 +340,6 @@ const toggleFavorite = () => {
   .movie-preview__buttons-container {
     flex-wrap: wrap;
   }
-
-  /* .movie-preview__buttons--details {
-    flex-wrap: nowrap;
-  } */
 
   .movie-preview__trailer-container {
     width: 100%;

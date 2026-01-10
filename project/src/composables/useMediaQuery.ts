@@ -27,29 +27,3 @@ export function useMediaQuery(maxWidth = BREAKPOINTS.MOBILE) {
   });
   return isMatch;
 }
-// import { ref, onMounted, onUnmounted } from 'vue';
-
-// export const BREAKPOINTS = {
-//   SMALL_MOBILE: 0,
-//   MOBILE: 576,
-//   TABLET: 768,
-//   DESKTOP: 992,
-//   LARGE_DESKTOP: 1200,
-// };
-
-// export function useMediaQuery(minWidth: number) {
-//   const matches = ref(false);
-//   let media: MediaQueryList;
-
-//   onMounted(() => {
-//     media = window.matchMedia(`(min-width: ${minWidth}px)`);
-//     matches.value = media.matches;
-
-//     const listener = () => (matches.value = media.matches);
-//     media.addEventListener('change', listener);
-
-//     onUnmounted(() => media.removeEventListener('change', listener));
-//   });
-
-//   return matches;
-// }

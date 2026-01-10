@@ -13,7 +13,6 @@
   align-items: center;
   height: 100vh;
   filter: blur(100);
-  /* background: linear-gradient(180deg, #0a1a3a 0%, #2a2a4a 50%, #5d4b8c 100%); */
 }
 
 .loader {

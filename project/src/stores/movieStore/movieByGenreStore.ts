@@ -42,9 +42,12 @@ export const useMovieByGenreStore = defineStore('movieGenre', () => {
   };
 
   const loadMoreMovies = async () => {
+    if (loader.value) return;
     loader.value = true;
     error.value = null;
     page.value += 1;
+
+    const scrollPosition = window.scrollY;
 
     try {
       const moreMovies = await fetchMoviesByGenre(
@@ -53,6 +56,13 @@ export const useMovieByGenreStore = defineStore('movieGenre', () => {
         page.value
       );
       genreMovie.value = [...genreMovie.value, ...moreMovies];
+
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: scrollPosition,
+          behavior: 'auto',
+        });
+      });
     } catch (err) {
       console.error(err);
       error.value = 'Не удалось загрузить дополнительные фильмы';
