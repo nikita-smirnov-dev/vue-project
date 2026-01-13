@@ -263,6 +263,11 @@ const toggleFavorite = () => {
   transition: width 0.2s ease;
 }
 
+.movie-preview__read-more:focus-visible {
+  outline: none;
+}
+
+.movie-preview__read-more:focus-visible::after,
 .movie-preview__read-more:hover::after {
   width: 100%;
 }

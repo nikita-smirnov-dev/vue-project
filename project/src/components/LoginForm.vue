@@ -128,4 +128,7 @@ const onRegisterClick = () => {
   text-align: center;
   color: var(--color-error);
 }
+/* .modal-form__input:hover svg {
+  color: var(--color-active-accent);
+} */
 </style>

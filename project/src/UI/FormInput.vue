@@ -40,10 +40,36 @@ const emit = defineEmits<{
   transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
+.input-form :deep(svg) {
+  transition: color 0.3s ease-in-out;
+}
+
+.input-form:focus-within {
+  border-color: var(--color-modal-form);
+}
+
+.input-form:focus-within :deep(svg) {
+  color: var(--color-modal-form);
+}
+
+.input-form:hover:not(:focus-within) {
+  border-color: var(--color-active-accent);
+  background-color: var(--color-bg-input);
+}
+
+.input-form:hover:not(:focus-within) :deep(svg) {
+  color: var(--color-active-accent);
+}
+
 .input {
   outline: none;
   border: none;
   background-color: var(--color-white);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.input:hover {
+  background-color: var(--color-bg-input);
 }
 
 .input::placeholder {
@@ -56,7 +82,15 @@ const emit = defineEmits<{
   border-color: var(--color-error);
 }
 
-:global(.input-form.input-error .modal__form-icon) {
+.input-form.input-error :deep(svg) {
+  color: var(--color-error);
+}
+
+.input-form.input-error:hover {
+  border-color: var(--color-error);
+}
+
+.input-form.input-error:hover :deep(svg) {
   color: var(--color-error);
 }
 </style>

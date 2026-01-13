@@ -25,6 +25,11 @@ const props = defineProps<{
   transition: color 0.3s ease-in-out;
 }
 
+.menu-item:focus-visible {
+  outline: none;
+}
+
+.menu-item:focus-visible,
 .menu-item:hover:not(.menu-item--active) {
   color: var(--color-active-accent);
 }

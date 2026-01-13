@@ -104,7 +104,7 @@ const removeToFavorite = () => {
   width: 25px;
   height: 25px;
 }
-
+.movie-card:focus-within .movie-card__btn-close,
 .movie-card:hover .movie-card__btn-close {
   opacity: 1;
   visibility: visible;

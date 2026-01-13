@@ -52,7 +52,7 @@
           :key="item.id"
           :style="{ width: '228px' }"
         >
-          <router-link :to="`/about/${item.id}`">
+          <router-link class="top-movies__link" :to="`/about/${item.id}`">
             <MovieCard :movie="item" :hide-rating="true" :index="index + 1" />
           </router-link>
         </SwiperSlide>
@@ -71,7 +71,7 @@
           :key="item.id"
           :style="{ width: '228px' }"
         >
-          <router-link :to="`/about/${item.id}`">
+          <router-link class="top-movies__link" :to="`/about/${item.id}`">
             <MovieCard :movie="item" :hide-rating="true" :index="index + 1" />
           </router-link>
         </SwiperSlide>
@@ -80,7 +80,7 @@
 
     <ul v-else class="top-movies__list list-reset">
       <li v-for="(item, index) of movie" :key="item.id">
-        <router-link :to="`/about/${item.id}`">
+        <router-link class="top-movies__link" :to="`/about/${item.id}`">
           <MovieCard :movie="item" :hide-rating="true" :index="index + 1" />
         </router-link>
       </li>
@@ -96,7 +96,6 @@ import { RouterLink } from 'vue-router';
 import MovieCard from '@/UI/MovieCard.vue';
 import type { TopMovieList } from '@/types/movieTypes';
 import { BREAKPOINTS, useMediaQuery } from '@/composables/useMediaQuery';
-import { computed } from 'vue';
 
 const props = defineProps<{
   movie: TopMovieList | null;
@@ -126,6 +125,14 @@ const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   column-gap: var(--spacing-40);
   row-gap: var(--spacing-64);
+}
+
+.top-movies__link:focus-visible {
+  outline: none;
+}
+
+.top-movies__link:focus-visible :deep(.movie-card__wrapper) {
+  border: 1px solid var(--color-white);
 }
 
 @media (max-width: 992px) {

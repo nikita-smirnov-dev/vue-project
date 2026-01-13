@@ -17,6 +17,11 @@ const props = defineProps<{
   transition: color 0.3s ease-in-out;
 }
 
+.btn-login:focus-visible {
+  outline: none;
+}
+
+.btn-login:focus-visible,
 .btn-login:hover {
   color: var(--color-active-accent);
 }

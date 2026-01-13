@@ -56,3 +56,4 @@ yarn build
 ```
 
 Приложение использует [The Movie Database API](https://cinemaguide.skillbox.cc/) для получения данных о фильмах.
+adding a favicon and readme and fixing minor bugs

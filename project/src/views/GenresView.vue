@@ -19,7 +19,7 @@
       <template v-else>
         <ul class="genres__list list-reset">
           <li v-for="item of genreStore.movieGenres" :key="item.id">
-            <router-link :to="`/genres/${item.slug}`">
+            <router-link class="genres__link" :to="`/genres/${item.slug}`">
               <GenreCard :genre="item"
             /></router-link>
           </li>
@@ -66,6 +66,14 @@ onMounted(() => {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   column-gap: var(--spacing-40);
   row-gap: var(--spacing-64);
+}
+
+.genres__link:focus-visible {
+  outline: none;
+}
+
+.genres__link:focus-visible :deep(.genre-card) {
+  border: 1px solid var(--color-white);
 }
 
 @media (max-width: 992px) {

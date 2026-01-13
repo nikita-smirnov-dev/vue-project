@@ -125,6 +125,11 @@ watch(
   transition: transform 0.2s ease-in-out;
 }
 
+.movies-genres__button:focus-visible {
+  outline: none;
+}
+
+.movies-genres__button:focus-visible,
 .movies-genres__button:hover {
   transform: scale(1.5);
 }
@@ -141,6 +146,14 @@ watch(
   column-gap: var(--spacing-40);
   row-gap: var(--spacing-64);
   margin-bottom: var(--spacing-64);
+}
+
+.movies-genres__link:focus-visible {
+  outline: none;
+}
+
+.movies-genres__link:focus-visible :deep(.movie-card__wrapper) {
+  border: 1px solid var(--color-white);
 }
 
 .movies-genres__btn-wrapper {

@@ -22,7 +22,16 @@
             :key="item.id"
             :style="{ width: '228px' }"
           >
-            <MovieCard :movie="item" :hide-rating="false" :isFavorite="true" />
+            <router-link
+              class="favorites-movies__link"
+              :to="`/about/${item.id}`"
+            >
+              <MovieCard
+                :movie="item"
+                :hide-rating="false"
+                :isFavorite="true"
+              />
+            </router-link>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -39,7 +48,16 @@
             :key="item.id"
             :style="{ width: '228px' }"
           >
-            <MovieCard :movie="item" :hide-rating="false" :isFavorite="true" />
+            <router-link
+              class="favorites-movies__link"
+              :to="`/about/${item.id}`"
+            >
+              <MovieCard
+                :movie="item"
+                :hide-rating="false"
+                :isFavorite="true"
+              />
+            </router-link>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -56,7 +74,16 @@
             :key="item.id"
             :style="{ width: '228px' }"
           >
-            <MovieCard :movie="item" :hide-rating="false" :isFavorite="true" />
+            <router-link
+              class="favorites-movies__link"
+              :to="`/about/${item.id}`"
+            >
+              <MovieCard
+                :movie="item"
+                :hide-rating="false"
+                :isFavorite="true"
+              />
+            </router-link>
           </SwiperSlide>
         </Swiper>
       </div>
@@ -67,7 +94,9 @@
           v-for="item of movieFavoritesStore.movieFavorites"
           :key="item.id"
         >
-          <MovieCard :movie="item" :hide-rating="false" :isFavorite="true" />
+          <router-link class="favorites-movies__link" :to="`/about/${item.id}`">
+            <MovieCard :movie="item" :hide-rating="false" :isFavorite="true" />
+          </router-link>
         </li>
       </ul>
     </template>
@@ -107,6 +136,19 @@ const movieFavoritesStore = useMovieFavoritesStore();
   grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
   column-gap: var(--spacing-40);
   row-gap: var(--spacing-64);
+}
+
+.favorites-movies__link:focus-visible {
+  outline: none;
+}
+
+.favorites-movies__link:focus-visible :deep(.movie-card__wrapper) {
+  border: 1px solid var(--color-white);
+}
+
+.favorites-movies__link:focus-visible :deep(.movie-card__btn-close) {
+  opacity: 1;
+  visibility: visible;
 }
 
 @media (max-width: 768px) {

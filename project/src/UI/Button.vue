@@ -32,13 +32,19 @@ const props = withDefaults(
     background-color 0.3s ease;
 }
 
-.button--primary:hover {
+.base-button:focus-visible {
+  outline: none;
+}
+
+.button--primary:hover,
+.button--primary:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   background-color: var(--color-hover-primary);
 }
 
-.button--secondary:hover {
+.button--secondary:hover,
+.button--secondary:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   background-color: var(--color-hover-secondary);

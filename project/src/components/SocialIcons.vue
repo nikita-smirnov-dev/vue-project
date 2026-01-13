@@ -48,6 +48,16 @@ import { ReTelegram2Fill } from '@kalimahapps/vue-icons';
   border: 1px solid var(--color-social-footer);
   border-radius: 8px;
   color: var(--color-social-footer);
+  transition: transform 0.3s ease;
+}
+
+.social-icons__link:focus-visible {
+  outline: none;
+}
+
+.social-icons__link:focus-visible,
+.social-icons__link:hover {
+  transform: translateY(-2px);
 }
 
 @media (max-width: 576px) {
